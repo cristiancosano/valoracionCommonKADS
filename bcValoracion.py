@@ -12,7 +12,7 @@ import types
 
 class Clase():
     def __init__(self, nombre):
-        self.nombre=nombre #La clase tiene un nombre
+        self.nombre=nombre
         self.reglas=[]
         self.descripcion=u'' 
 
@@ -36,6 +36,6 @@ class Atributo():
 		if (tipo=='multiple') and (posiblesValores is not None) and (type(posiblesValores) is types.ListType):
 			self.posiblesValores= posiblesValores 
 			
-		# Comprobamos si el tipo de atributo es boleano para aÃ±adir los posibles valores de dicho tipo
+		# Comprobamos si el tipo de atributo es boleano para añadir los posibles valores de dicho tipo
 		if tipo=='boleano':
 			self.posiblesValores= [True, False]
