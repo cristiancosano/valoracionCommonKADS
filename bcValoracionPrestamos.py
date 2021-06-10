@@ -29,8 +29,8 @@ class Solicitud(Clase):
 		self.valorLimite=Atributo('ValorLimite','float',None)        
 		self.atributos=[self.atMotivo,self.atCantidad,self.atTiempoDevolucion]
 		self.criterio=Criterio("criterio")
-		r=AbstraerLimite('r')
-		self.reglas=[r]
+		#r=AbstraerLimite('r')
+		#self.reglas=[r]
 
         
 
@@ -61,9 +61,9 @@ class Persona(Clase):
 		self.atSolvencia=Atributo('Solvencia','multiple',None,None,['Mucha','Poca','Media'])
 		#Se establece la lista de atributos que posee esta clase
 		self.atributos=[self.atNombre,self.atApellidos,self.atSueldoAnual,self.atSituacionLaboral]
-		r2= AbstraerSolvencia('r2')
-		r1= AbstraerSueldoMensual('r1')        
-		self.reglas=[r1,r2]
+		#r2= AbstraerSolvencia('r2')
+		#r1= AbstraerSueldoMensual('r1')        
+		#self.reglas=[r1,r2]
 
 
 class Criterio(Regla):
@@ -79,19 +79,6 @@ class Criterio(Regla):
 	def execute(self,persona,solicitud):
         
 		valor=0.0
-            
-		if persona.atSolvencia.valor == 'Mucha':
-			solicitud.descripcion+='El atributo '+persona.atSolvencia.nombre+' con valor '+persona.atSolvencia.valor+' proporciona 0.7 puntos de valoracion\n'
-			valor=valor+0.7
-        
-		if persona.atSituacionLaboral.valor == 'Trabajo Fijo':
-			solicitud.descripcion+='El atributo '+persona.atSituacionLaboral.nombre+' con valor '+persona.atSituacionLaboral.valor+' proporciona 0.4 puntos de valoracion\n'
-			valor=valor+0.4
-        
-		if persona.atSituacionLaboral.valor == 'Trabajo Temporal':
-			solicitud.descripcion+='El atributo '+persona.atSituacionLaboral.nombre+' con valor '+persona.atSituacionLaboral.valor+' proporciona 0.2 puntos de valoracion\n'
-			valor=valor+0.2
-            
 		return valor, solicitud
 
   
