@@ -10,6 +10,9 @@ Fecha: 20/06/2021
 
 from bcValoracion import Clase, Atributo, Regla
 
+# Objetos de la base del conocimiento
+
+
 class Solicitud(Clase):
 	"""
 	Clase para la representacion de la solicitud de un prestamo
@@ -23,17 +26,15 @@ class Solicitud(Clase):
 	def __init__(self,nombre=None):
 		Clase.__init__(self,nombre=nombre)
         
-		self.atMotivo=Atributo('Motivo','multiple',None, None,['Compra de Casa','Cambio Coche','Estudios'])
-		self.atCantidad=Atributo('Cantidad','int',None)
-		self.atTiempoDevolucion=Atributo('Tiempo Devolucion','int',None)
-		self.valorLimite=Atributo('ValorLimite','float',None)        
+		self.atMotivo=Atributo('Motivo', 'multiple', None, None, ['Compra de Casa','Cambio Coche','Estudios'])
+		self.atCantidad=Atributo('Cantidad', 'int', None)
+		self.atTiempoDevolucion=Atributo('Tiempo Devolucion', 'int', None)
+		self.valorLimite=Atributo('ValorLimite', 'float', None)       
+		self.atcapacidadMaximaDePago('Capacidad Maxima de Pago', 'float', None) 
 		self.atributos=[self.atMotivo,self.atCantidad,self.atTiempoDevolucion]
 		self.criterio=Criterio("criterio")
-		#r=AbstraerLimite('r')
-		#self.reglas=[r]
-
-        
-
+		r1 = AbstraerPosibilidadPago('r1')
+		self.reglas=[r1]
 
 class Persona(Clase):
 	"""
@@ -54,7 +55,7 @@ class Persona(Clase):
 
 		self.atNombre=Atributo('Nombre','str',None)
 		self.atApellidos=Atributo('Apellidos','str',None)
-		#self.atSueldoMensual=Atributo('Sueldo Mensual','float', None)
+		self.atSueldoMensual=Atributo('Sueldo Mensual','float', None)
 		self.atSueldoAnual=Atributo('Sueldo Anual','float',None)
 		self.atPatrimonio=Atributo('Patrimonio','float',None)
 		self.atPatrimonioAvalistas=Atributo('Patrimonio Avalistas','float',None)
@@ -65,50 +66,16 @@ class Persona(Clase):
 		self.atCapacidadEconomica('Capacidad Economica', 'float', None)
 		#Se establece la lista de atributos que posee esta clase
 		self.atributos=[self.atNombre,self.atApellidos,self.atSueldoAnual,self.atSituacionLaboral]
+		r1 = AbstraerSueldoMensual('r1')
+		r2 = AbstraerCapacidadEconomica('r2')
+		self.reglas=[r1,r2]
 		#r2= AbstraerSolvencia('r2')
-		#r1= AbstraerSueldoMensual('r1')        
-		#self.reglas=[r1,r2]
-	
+		#r1= AbstraerSueldoMensual('r1')        		
 
-class RiesgoBajoJoven(Regla):
-	def __init__():
-		Regla.__init__(self,idRegla)
-	def execute(self, persona, solicitud):
-		valor = 0.0
-		return valor
 
-class RiesgoMedioJoven(Regla):
-	def __init__():
-		Regla.__init__(self,idRegla)
-	def execute(self, persona, solicitud):
-		valor = 0.0
-		return valor
 
-class RiesgoAltoJoven(Regla):
-	def __init__():
-		Regla.__init__(self,idRegla)
-	def execute(self, persona, solicitud):
-		valor = 0.0
-		return valor
 
-class RiesgoBajoAdulto(Regla):
-	def __init__():
-		Regla.__init__(self,idRegla)
-	def execute(self, persona, solicitud):
-		valor = 0.0
-		return valor
-class RiesgoMedioAdulto(Regla):
-	def __init__():
-		Regla.__init__(self,idRegla)
-	def execute(self, persona, solicitud):
-		valor = 0.0
-		return valor
-class RiesgoAltoAdulto(Regla):
-	def __init__():
-		Regla.__init__(self,idRegla)
-	def execute(self, persona, solicitud):
-		valor = 0.0
-		return valor
+# Criterios
 
 class Criterios:
 	def __init__():
@@ -128,23 +95,49 @@ class Criterios:
 		
 		return self.criteros['Riesgo'+riesgo.capitalize()+('Joven', 'Adulto')[edad<50]]
 
-class Criterio(Regla):
-	"""
-	Requisitos aplicados para valorar la concesion de un prestamo
-	@return: valor calculado para ver si es solvente o no.
-	"""
-  
-	def __init__(self,idRegla):
-        
+class RiesgoBajoJoven(Regla):
+	def __init__():
 		Regla.__init__(self,idRegla)
-             
-	def execute(self,persona,solicitud):
-        
-		valor=0.0
-		return valor, solicitud
+	def execute(self, persona, solicitud):
+		valor = 0.0
+		return valor
+class RiesgoMedioJoven(Regla):
+	def __init__():
+		Regla.__init__(self,idRegla)
+	def execute(self, persona, solicitud):
+		valor = 0.0
+		return valor
+class RiesgoAltoJoven(Regla):
+	def __init__():
+		Regla.__init__(self,idRegla)
+	def execute(self, persona, solicitud):
+		valor = 0.0
+		return valor
+class RiesgoBajoAdulto(Regla):
+	def __init__():
+		Regla.__init__(self,idRegla)
+	def execute(self, persona, solicitud):
+		valor = 0.0
+		return valor
+class RiesgoMedioAdulto(Regla):
+	def __init__():
+		Regla.__init__(self,idRegla)
+	def execute(self, persona, solicitud):
+		valor = 0.0
+		return valor
+class RiesgoAltoAdulto(Regla):
+	def __init__():
+		Regla.__init__(self,idRegla)
+	def execute(self, persona, solicitud):
+		valor = 0.0
+		return valor
 
   
-    
+
+
+# Abstracciones
+
+
 class AbstraerSueldoMensual(Regla):
 	"""
 	Regla basica para abstraer el sueldo mensual del solicitante del prestamo
@@ -157,8 +150,13 @@ class AbstraerSueldoMensual(Regla):
   
 
 	def execute(self,persona,solicitud):
-		return persona.atPatrimonio
-        
+		sueldoMensual = (sueldoAnual / 12)
+		resultado = persona.setAtributoSiExiste('Sueldo Mensual', sueldoMensual)
+		if(resultado = None): 
+			persona.atSueldoMensual.valor = sueldoMenual
+			persona.atributos.append(persona.atSueldoMensual)
+
+		return persona        
     
 class AbstraerCapacidadEconomica(Regla):
 	"""
@@ -182,7 +180,7 @@ class AbstraerCapacidadEconomica(Regla):
 		resultado = persona.setAtributoSiExiste('Capacidad Economica', porcentajeCapacidad)
 		if(resultado = None): 
 			persona.atCapacidadEconomica.valor = porcentajeCapacidad
-			persona.atributos.append(atCapacidadEconomica)
+			persona.atributos.append(persona.atCapacidadEconomica)
 
 		return persona
    
@@ -196,4 +194,26 @@ class AbstraerPosibilidadPago(Regla):
 		Regla.__init__(self,idRegla)
         
 	def execute(self,persona,solicitud):
+		sueldoAnual = persona.getAtributoValor('Sueldo Anual')
+		patrimonio = persona.getAtributoValor('Patrimonio')
+		patrimonioAvalistas = persona.getAtributoValor('Patrimonio Avalistas')
+		edad = persona.getAtributoValor('Edad')
+		perfilRiesgo = persona.getAtributoValor('Riesgo')
+		cantidadPrestamo = solicitud.getAtributoValor('Cantidad')
+
+		capacidadMensual = (sueldoAnual / 12) + ((patrimonio + patrimonioAvalistas) / 240)
+
+		capacidadMaximaDePago = 0.0
+		capacidadMaximaDePago += [(capacidadMensual * 12 * 25), (capacidadMensual * 12 * 10)](edad < 50)
+		capacidadMaximaDePago -= [(capacidadMensual * 12 * 10), 0](perfilRiesgo == 'Alto')
+		capacidadMaximaDePago -= [(capacidadMensual * 12 * 5), 0](perfilRiesgo == 'Medio')
+
+		resultado = solicitud.setAtributoSiExiste('Capacidad Maxima de Pago', capacidadMaximaDePago)
+		if(resultado = None): 
+			solicitud.atCapacidadMaximaDePago.valor = capacidadMaximaDePago
+			solicitud.atributos.append(solicitud.atCapacidadMaximaDePago)
+		
 		return solicitud
+
+
+
