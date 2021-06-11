@@ -122,5 +122,3 @@ class AbstraerPosibilidadPago(Regla):
         
 	def execute(self,persona,solicitud):
 		return solicitud
-        
-        

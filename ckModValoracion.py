@@ -21,12 +21,12 @@ class Dominio:
 
 	
 	def execute(self):
-         self.personaAbstraida, self.solicitudAbstraida = Abstraer(self.persona,self.solicitud).execute()
-         self.criterio, self.valorLimite                = Seleccionar(self.solicitudAbstraida).execute()
-         self.valor, self.solicitudAbstraida            = Evaluar(self.criterio,self.personaAbstraida,self.solicitudAbstraida).execute()
-         self.decision, self.solicitudAbstraida         = Equiparar(self.valorLimite,self.valor,self.solicitudAbstraida).execute()
-         
-         return self.decision, self.solicitudAbstraida.descripcion
+        self.personaAbstraida, self.solicitudAbstraida = Abstraer(self.persona, self.solicitud).execute()
+        self.criterio, self.valorLimite                = Seleccionar(self.solicitudAbstraida).execute()
+        self.valor, self.solicitudAbstraida            = Evaluar(self.criterio, self.personaAbstraida, self.solicitudAbstraida).execute()
+        self.decision, self.solicitudAbstraida         = Equiparar(self.valorLimite, self.valor, self.solicitudAbstraida).execute()
+        
+        return self.decision, self.solicitudAbstraida.descripcion
 
 class Inferencia:
     def __init__(self):
