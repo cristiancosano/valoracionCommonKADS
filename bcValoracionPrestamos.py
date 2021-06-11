@@ -54,17 +54,79 @@ class Persona(Clase):
 
 		self.atNombre=Atributo('Nombre','str',None)
 		self.atApellidos=Atributo('Apellidos','str',None)
-		self.atSueldoMensual=Atributo('Sueldo Mensual','float', None)
+		#self.atSueldoMensual=Atributo('Sueldo Mensual','float', None)
 		self.atSueldoAnual=Atributo('Sueldo Anual','float',None)
+		self.atPatrimonio=Atributo('Patrimonio','float',None)
+		self.atPatrimonioAvalistas=Atributo('Patrimonio Avalistas','float',None)
 		self.atSituacionLaboral=Atributo('Situacion Laboral','multiple',None,None,['Parado','Trabajo Temporal','Trabajo Fijo'])
 		self.atRiesgo=Atributo('Riesgo','multiple',None,None,['Alto','Medio','Bajo'])
+		self.atEdad=Atributo('Edad', 'int', None)
 		self.atSolvencia=Atributo('Solvencia','multiple',None,None,['Mucha','Poca','Media'])
+		self.atCapacidadEconomica('Capacidad Economica', 'float', None)
 		#Se establece la lista de atributos que posee esta clase
 		self.atributos=[self.atNombre,self.atApellidos,self.atSueldoAnual,self.atSituacionLaboral]
 		#r2= AbstraerSolvencia('r2')
 		#r1= AbstraerSueldoMensual('r1')        
 		#self.reglas=[r1,r2]
+	
 
+class RiesgoBajoJoven(Regla):
+	def __init__():
+		Regla.__init__(self,idRegla)
+	def execute(self, persona, solicitud):
+		valor = 0.0
+		return valor
+
+class RiesgoMedioJoven(Regla):
+	def __init__():
+		Regla.__init__(self,idRegla)
+	def execute(self, persona, solicitud):
+		valor = 0.0
+		return valor
+
+class RiesgoAltoJoven(Regla):
+	def __init__():
+		Regla.__init__(self,idRegla)
+	def execute(self, persona, solicitud):
+		valor = 0.0
+		return valor
+
+class RiesgoBajoAdulto(Regla):
+	def __init__():
+		Regla.__init__(self,idRegla)
+	def execute(self, persona, solicitud):
+		valor = 0.0
+		return valor
+class RiesgoMedioAdulto(Regla):
+	def __init__():
+		Regla.__init__(self,idRegla)
+	def execute(self, persona, solicitud):
+		valor = 0.0
+		return valor
+class RiesgoAltoAdulto(Regla):
+	def __init__():
+		Regla.__init__(self,idRegla)
+	def execute(self, persona, solicitud):
+		valor = 0.0
+		return valor
+
+class Criterios:
+	def __init__():
+		self.criterios = {
+			'RiesgoBajoJoven'	: RiesgoBajoJoven(),
+			'RiesgoMedioJoven'	: RiesgoMedioJoven(),
+			'RiesgoAltoJoven'	: RiesgoAltoJoven(),
+			'RiesgoBajoAdulto'	: RiesgoBajoAdulto(),
+			'RiesgoMedioAdulto'	: RiesgoMedioAdulto(),
+			'RiesgoAltoAdulto'	: RiesgoAltoAdulto()
+		}
+	
+	def obtenerCriterio(persona):
+		for atributo in persona.atributos
+			if(atributo.nombre == 'Edad') 	edad 	= atributo.value
+			if(atributo.nombre == 'Riesgo') riesgo 	= atributo.value
+		
+		return self.criteros['Riesgo'+riesgo.capitalize()+('Joven', 'Adulto')[edad<50]]
 
 class Criterio(Regla):
 	"""
@@ -86,8 +148,8 @@ class Criterio(Regla):
 class AbstraerSueldoMensual(Regla):
 	"""
 	Regla basica para abstraer el sueldo mensual del solicitante del prestamo
-	@param: sueldoAnual
-	@return: sueldo de la persona
+	@param: sueldoMensual
+	@return: sueldo medio de la persona al mes
 	"""  
 
 	def __init__(self,idRegla):
@@ -95,7 +157,7 @@ class AbstraerSueldoMensual(Regla):
   
 
 	def execute(self,persona,solicitud):
-		return persona
+		return persona.atPatrimonio
         
     
 class AbstraerCapacidadEconomica(Regla):
@@ -108,7 +170,20 @@ class AbstraerCapacidadEconomica(Regla):
 		Regla.__init__(self,idRegla)
   
 
-	def execute(self, persona, solicitud):                       
+	def execute(self, persona, solicitud): 
+		sueldoAnual = persona.getAtributoValor('Sueldo Anual')
+		patrimonio = persona.getAtributoValor('Patrimonio')
+		patrimonioAvalistas = persona.getAtributoValor('Patrimonio Avalistas')
+		cantidadPrestamo = solicitud.getAtributoValor('Cantidad')
+
+		capacidadMensual = (sueldoAnual / 12) + ((patrimonio + patrimonioAvalistas) / 240)
+		porcentajeCapacidad = (capacidad / cantidadPrestamo) * 100
+
+		resultado = persona.setAtributoSiExiste('Capacidad Economica', porcentajeCapacidad)
+		if(resultado = None): 
+			persona.atCapacidadEconomica.valor = porcentajeCapacidad
+			persona.atributos.append(atCapacidadEconomica)
+
 		return persona
    
 class AbstraerPosibilidadPago(Regla):

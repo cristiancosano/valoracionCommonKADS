@@ -15,6 +15,28 @@ class Clase():
         self.nombre=nombre
         self.reglas=[]
         self.descripcion=u'' 
+		self.atributos=[]
+
+	def getAtributo(nombre):
+		response = None
+		for atributo in self.atributos:
+			if(atributo.nombre == nombre):
+				response = atributo
+		return response
+
+	def getAtributoValor(nombre):
+		response = self.getAtributo(nombre)
+		if(request != None):
+			response = response.valor
+		return response
+	def setAtributoSiExiste(nombre, valor):
+		response = None
+		for atributo in self.atributos:
+			if(atributo.nombre == nombre):
+				atributo.valor = valor
+				response = atributo
+		return response
+
 
 class Regla():
 	def __init__(self,idRegla):
@@ -34,7 +56,7 @@ class Atributo():
 
 		# Obtenemos los posibles valores del atributo en caso de que sea de tipo multiple
 		if (tipo=='multiple') and (posiblesValores is not None) and (type(posiblesValores) is types.ListType):
-			self.posiblesValores= posiblesValores 
+			self.posiblesValores = posiblesValores 
 			
 		# Comprobamos si el tipo de atributo es boleano para añadir los posibles valores de dicho tipo
 		if tipo=='boleano':

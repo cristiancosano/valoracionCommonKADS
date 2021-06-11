@@ -20,7 +20,6 @@ class Dominio:
         self.valorLimite        = None
 
 	
-<<<<<<< HEAD
 	def execute(self):
         self.personaAbstraida, self.solicitudAbstraida = Abstraer(self.persona, self.solicitud).execute()
         self.criterio, self.valorLimite                = Seleccionar(self.solicitudAbstraida).execute()
@@ -28,15 +27,6 @@ class Dominio:
         self.decision, self.solicitudAbstraida         = Equiparar(self.valorLimite, self.valor, self.solicitudAbstraida).execute()
         
         return self.decision, self.solicitudAbstraida.descripcion
-=======
-    def execute(self):
-         self.personaAbstraida, self.solicitudAbstraida = Abstraer(self.persona,self.solicitud).execute()
-         self.criterio, self.valorLimite                = Seleccionar(self.solicitudAbstraida).execute()
-         self.valor, self.solicitudAbstraida            = Evaluar(self.criterio,self.personaAbstraida,self.solicitudAbstraida).execute()
-         self.decision, self.solicitudAbstraida         = Equiparar(self.valorLimite,self.valor,self.solicitudAbstraida).execute()
-         
-         return self.decision, self.solicitudAbstraida.descripcion
->>>>>>> 4cdfdbf8c507d0da469004beaf4a3cbb3f039e7c
 
 class Inferencia:
     def __init__(self):
