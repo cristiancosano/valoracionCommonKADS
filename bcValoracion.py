@@ -26,7 +26,7 @@ class Clase():
 
 	def getAtributoValor(nombre):
 		response = self.getAtributo(nombre)
-		if(request != None):
+		if(response != None):
 			response = response.valor
 		return response
 	def setAtributoSiExiste(nombre, valor):
