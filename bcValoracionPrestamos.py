@@ -93,7 +93,7 @@ class Criterios:
 			if(atributo.nombre == 'Edad') 	edad 	= atributo.value
 			if(atributo.nombre == 'Riesgo') riesgo 	= atributo.value
 		
-		return self.criteros['Riesgo'+riesgo.capitalize()+('Joven', 'Adulto')[edad<50]]
+		return self.criterios['Riesgo'+riesgo.capitalize()+('Joven', 'Adulto')[edad<50]]
 
 class RiesgoBajoJoven(Regla):
 	def __init__():
