@@ -7,3 +7,12 @@ Asignatura: Ingeniería de Sistemas Software Basados en Conocimiento
 Autor: Cristian Cosano Cejas y Antonio Luis Rodriguez Jiménez 
 Fecha: 20/06/2021
 '''
+import bcValoracionEmpleo
+import bcValoracionPrestamos
+
+def obtenerDominio(dominio):
+    dominios = {
+			'Empleo':  bcValoracionEmpleo,
+			'Prestamos': bcValoracionPrestamos
+	}
+    return dominios[dominio]

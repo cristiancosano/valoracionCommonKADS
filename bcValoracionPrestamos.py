@@ -32,7 +32,7 @@ class Solicitud(Clase):
 		self.valorLimite=Atributo('ValorLimite', 'float', None)       
 		#self.atCapacidadMaximaDePago('Capacidad Maxima de Pago', 'float', None) 
 		self.atributos=[self.atMotivo,self.atCantidad,self.atTiempoDevolucion]
-		self.criterio=Criterios("criterio")
+		self.criterio=Criterios()
 		r1 = AbstraerValorLimite('r1')
 		self.reglas=[r1]
 
@@ -63,7 +63,7 @@ class Persona(Clase):
 		self.atRiesgo=Atributo('Riesgo','multiple',None,None,['Alto','Medio','Bajo'])
 		self.atEdad=Atributo('Edad', 'int', None)
 		self.atSolvencia=Atributo('Solvencia','multiple',None,None,['Mucha','Poca','Media'])
-		self.atCapacidadEconomica('Capacidad Economica', 'float', None)
+		self.atCapacidadEconomica=Atributo('Capacidad Economica', 'float', None)
 		#Se establece la lista de atributos que posee esta clase
 		self.atributos=[self.atNombre,self.atApellidos,self.atSueldoAnual,self.atSituacionLaboral]
 		r1 = AbstraerSueldoMensual('r1')
@@ -75,12 +75,12 @@ class Persona(Clase):
 class Criterios:
 	def __init__(self):
 		self.criterios = {
-			'RiesgoBajoJoven'	: RiesgoBajoJoven(),
-			'RiesgoMedioJoven'	: RiesgoMedioJoven(),
-			'RiesgoAltoJoven'	: RiesgoAltoJoven(),
-			'RiesgoBajoAdulto'	: RiesgoBajoAdulto(),
-			'RiesgoMedioAdulto'	: RiesgoMedioAdulto(),
-			'RiesgoAltoAdulto'	: RiesgoAltoAdulto()
+			'RiesgoBajoJoven'	: RiesgoBajoJoven(1),
+			'RiesgoMedioJoven'	: RiesgoMedioJoven(2),
+			'RiesgoAltoJoven'	: RiesgoAltoJoven(3),
+			'RiesgoBajoAdulto'	: RiesgoBajoAdulto(4),
+			'RiesgoMedioAdulto'	: RiesgoMedioAdulto(5),
+			'RiesgoAltoAdulto'	: RiesgoAltoAdulto(6)
 		}
 	
 	def obtenerCriterio(self, persona):
