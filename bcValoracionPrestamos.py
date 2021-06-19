@@ -22,17 +22,17 @@ class Solicitud(Clase):
 	@param: Valor Limite: valor maximo del prestamo.
 	"""
 		
-    
+	
 	def __init__(self,nombre=None):
 		Clase.__init__(self,nombre=nombre)
-        
+		
 		self.atMotivo=Atributo('Motivo', 'multiple', None, None, ['Compra de Casa','Cambio Coche','Estudios'])
 		self.atCantidad=Atributo('Cantidad', 'int', None)
 		self.atTiempoDevolucion=Atributo('Tiempo Devolucion', 'int', None)
 		self.valorLimite=Atributo('ValorLimite', 'float', None)       
 		self.atcapacidadMaximaDePago('Capacidad Maxima de Pago', 'float', None) 
 		self.atributos=[self.atMotivo,self.atCantidad,self.atTiempoDevolucion]
-		self.criterio=Criterio("criterio")
+		self.criterio=Criterios("criterio")
 		r1 = AbstraerPosibilidadPago('r1')
 		self.reglas=[r1]
 
@@ -78,7 +78,7 @@ class Persona(Clase):
 # Criterios
 
 class Criterios:
-	def __init__():
+	def __init__(self):
 		self.criterios = {
 			'RiesgoBajoJoven'	: RiesgoBajoJoven(),
 			'RiesgoMedioJoven'	: RiesgoMedioJoven(),
@@ -88,45 +88,44 @@ class Criterios:
 			'RiesgoAltoAdulto'	: RiesgoAltoAdulto()
 		}
 	
-	def obtenerCriterio(persona):
-		for atributo in persona.atributos
-			if(atributo.nombre == 'Edad') 	edad 	= atributo.value
-			if(atributo.nombre == 'Riesgo') riesgo 	= atributo.value
+	def obtenerCriterio(self, persona):
+		edad = persona.getAtributoValor('Edad')
+		riesgo = persona.getAtributoValor('Riesgo')
 		
 		return self.criterios['Riesgo'+riesgo.capitalize()+('Joven', 'Adulto')[edad<50]]
 
 class RiesgoBajoJoven(Regla):
-	def __init__():
+	def __init__(self, idRegla):
 		Regla.__init__(self,idRegla)
 	def execute(self, persona, solicitud):
 		valor = 0.0
 		return valor
 class RiesgoMedioJoven(Regla):
-	def __init__():
+	def __init__(self, idRegla):
 		Regla.__init__(self,idRegla)
 	def execute(self, persona, solicitud):
 		valor = 0.0
 		return valor
 class RiesgoAltoJoven(Regla):
-	def __init__():
+	def __init__(self, idRegla):
 		Regla.__init__(self,idRegla)
 	def execute(self, persona, solicitud):
 		valor = 0.0
 		return valor
 class RiesgoBajoAdulto(Regla):
-	def __init__():
+	def __init__(self, idRegla):
 		Regla.__init__(self,idRegla)
 	def execute(self, persona, solicitud):
 		valor = 0.0
 		return valor
 class RiesgoMedioAdulto(Regla):
-	def __init__():
+	def __init__(self, idRegla):
 		Regla.__init__(self,idRegla)
 	def execute(self, persona, solicitud):
 		valor = 0.0
 		return valor
 class RiesgoAltoAdulto(Regla):
-	def __init__():
+	def __init__(self, idRegla):
 		Regla.__init__(self,idRegla)
 	def execute(self, persona, solicitud):
 		valor = 0.0
@@ -150,18 +149,18 @@ class AbstraerSueldoMensual(Regla):
   
 
 	def execute(self,persona,solicitud):
-		sueldoMensual = (sueldoAnual / 12)
+		sueldoMensual = (persona.getAtributoValor('Sueldo Anual') / 12)
 		resultado = persona.setAtributoSiExiste('Sueldo Mensual', sueldoMensual)
-		if(resultado = None): 
-			persona.atSueldoMensual.valor = sueldoMenual
+		if(resultado is None): 
+			persona.atSueldoMensual.valor = sueldoMensual
 			persona.atributos.append(persona.atSueldoMensual)
 
 		return persona        
-    
+	
 class AbstraerCapacidadEconomica(Regla):
 	"""
 	Obtine el poder económico del solicitante en base a datos proporcionados
-    como su patrimonio, sueldo y capacidad de los avalistas
+	como su patrimonio, sueldo y capacidad de los avalistas
 	"""    
 
 	def __init__(self,idRegla):
@@ -175,10 +174,10 @@ class AbstraerCapacidadEconomica(Regla):
 		cantidadPrestamo = solicitud.getAtributoValor('Cantidad')
 
 		capacidadMensual = (sueldoAnual / 12) + ((patrimonio + patrimonioAvalistas) / 240)
-		porcentajeCapacidad = (capacidad / cantidadPrestamo) * 100
+		porcentajeCapacidad = (capacidadMensual / cantidadPrestamo) * 100
 
 		resultado = persona.setAtributoSiExiste('Capacidad Economica', porcentajeCapacidad)
-		if(resultado = None): 
+		if(resultado is None): 
 			persona.atCapacidadEconomica.valor = porcentajeCapacidad
 			persona.atributos.append(persona.atCapacidadEconomica)
 
@@ -187,12 +186,12 @@ class AbstraerCapacidadEconomica(Regla):
 class AbstraerPosibilidadPago(Regla):
 	"""
 	Obtiene la cantidad total que el solicitante sería capaz de pagar en función de su capacidad económica,
-    perfil de riesgo y edad. 
+	perfil de riesgo y edad. 
 	"""   	
 
 	def __init__(self,idRegla):
 		Regla.__init__(self,idRegla)
-        
+		
 	def execute(self,persona,solicitud):
 		sueldoAnual = persona.getAtributoValor('Sueldo Anual')
 		patrimonio = persona.getAtributoValor('Patrimonio')
@@ -209,7 +208,7 @@ class AbstraerPosibilidadPago(Regla):
 		capacidadMaximaDePago -= [(capacidadMensual * 12 * 5), 0](perfilRiesgo == 'Medio')
 
 		resultado = solicitud.setAtributoSiExiste('Capacidad Maxima de Pago', capacidadMaximaDePago)
-		if(resultado = None): 
+		if(resultado is None): 
 			solicitud.atCapacidadMaximaDePago.valor = capacidadMaximaDePago
 			solicitud.atributos.append(solicitud.atCapacidadMaximaDePago)
 		

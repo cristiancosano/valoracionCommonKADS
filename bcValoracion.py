@@ -11,25 +11,25 @@ Fecha: 20/06/2021
 import types
 
 class Clase():
-    def __init__(self, nombre):
-        self.nombre=nombre
-        self.reglas=[]
-        self.descripcion=u'' 
+	def __init__(self, nombre):
+		self.nombre=nombre
+		self.reglas=[]
 		self.atributos=[]
+		self.descripcion=u'' 
 
-	def getAtributo(nombre):
+	def getAtributo(self, nombre):
 		response = None
 		for atributo in self.atributos:
 			if(atributo.nombre == nombre):
 				response = atributo
 		return response
 
-	def getAtributoValor(nombre):
+	def getAtributoValor(self, nombre):
 		response = self.getAtributo(nombre)
 		if(response != None):
 			response = response.valor
 		return response
-	def setAtributoSiExiste(nombre, valor):
+	def setAtributoSiExiste(self, nombre, valor):
 		response = None
 		for atributo in self.atributos:
 			if(atributo.nombre == nombre):
