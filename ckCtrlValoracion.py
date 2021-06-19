@@ -16,3 +16,5 @@ def obtenerDominio(dominio):
 			'Prestamos': bcValoracionPrestamos
 	}
     return dominios[dominio]
+def valorar():
+	return 'ola'

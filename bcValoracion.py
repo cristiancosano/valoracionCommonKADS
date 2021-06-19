@@ -59,7 +59,9 @@ class Atributo():
 		# Obtenemos los posibles valores del atributo en caso de que sea de tipo multiple
 		#if (tipo=='multiple') and (posiblesValores is not None) and (type(posiblesValores) is types.ListType):
 		#	self.posiblesValores = posiblesValores 
+		if tipo == 'multiple':
+			self.posiblesValores = posiblesValores
 			
 		# Comprobamos si el tipo de atributo es boleano para añadir los posibles valores de dicho tipo
-		if tipo=='boleano':
-			self.posiblesValores= [True, False]
+		if tipo == 'boolean':
+			self.posiblesValores= ['True', 'False']
