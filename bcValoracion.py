@@ -49,14 +49,16 @@ class Atributo():
 	de los atributos que van a usarse en la base de conocimiento para 
 	describir un objeto.
 	"""	
-	def __init__(self,nombre,tipo,unidad,valor=None,posiblesValores=None):
+	def __init__(self,nombre,tipo,unidad,valor = None,posiblesValores = None):
 		self.nombre=nombre
 		self.tipo=tipo
 		self.unidad=unidad
+		self.valor = valor
+		self.posiblesValores = posiblesValores
 
 		# Obtenemos los posibles valores del atributo en caso de que sea de tipo multiple
-		if (tipo=='multiple') and (posiblesValores is not None) and (type(posiblesValores) is types.ListType):
-			self.posiblesValores = posiblesValores 
+		#if (tipo=='multiple') and (posiblesValores is not None) and (type(posiblesValores) is types.ListType):
+		#	self.posiblesValores = posiblesValores 
 			
 		# Comprobamos si el tipo de atributo es boleano para añadir los posibles valores de dicho tipo
 		if tipo=='boleano':

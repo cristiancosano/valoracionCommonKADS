@@ -32,19 +32,13 @@ class Solicitud(Clase):
 		self.valorLimite=Atributo('ValorLimite', 'float', None)       
 		#self.atCapacidadMaximaDePago('Capacidad Maxima de Pago', 'float', None) 
 		self.atributos=[self.atMotivo,self.atCantidad,self.atTiempoDevolucion]
-<<<<<<< HEAD
 		self.criterio=Criterios()
-		r1 = AbstraerPosibilidadPago('r1')
-=======
-		self.criterio=Criterios("criterio")
 		r1 = AbstraerValorLimite('r1')
->>>>>>> 9d7eadc0c64401903baaa0dedeb0b4f91b42bb0f
 		self.reglas=[r1]
 
 class Persona(Clase):
 	"""
 	Describe los atributos por los que se caracterizará a una persona solicitante de un prestamo
-
 	@param: Nombre
 	@param: Apellidos
 	@param: Sueldo Mensual
@@ -68,7 +62,7 @@ class Persona(Clase):
 		self.atRiesgo=Atributo('Riesgo','multiple',None,None,['Alto','Medio','Bajo'])
 		self.atEdad=Atributo('Edad', 'int', None)
 		self.atSolvencia=Atributo('Solvencia','multiple',None,None,['Mucha','Poca','Media'])
-		self.atCapacidadEconomica('Capacidad Economica', 'float', None)
+		self.atCapacidadEconomica=Atributo('Capacidad Economica', 'float', None)
 		#Se establece la lista de atributos que posee esta clase
 		self.atributos=[self.atNombre,self.atApellidos,self.atSueldoAnual,self.atSituacionLaboral]
 		r1 = AbstraerSueldoMensual('r1')
@@ -80,12 +74,12 @@ class Persona(Clase):
 class Criterios:
 	def __init__(self):
 		self.criterios = {
-			'RiesgoBajoJoven'	: RiesgoBajoJoven(),
-			'RiesgoMedioJoven'	: RiesgoMedioJoven(),
-			'RiesgoAltoJoven'	: RiesgoAltoJoven(),
-			'RiesgoBajoAdulto'	: RiesgoBajoAdulto(),
-			'RiesgoMedioAdulto'	: RiesgoMedioAdulto(),
-			'RiesgoAltoAdulto'	: RiesgoAltoAdulto()
+			'RiesgoBajoJoven'	: RiesgoBajoJoven(1),
+			'RiesgoMedioJoven'	: RiesgoMedioJoven(2),
+			'RiesgoAltoJoven'	: RiesgoAltoJoven(3),
+			'RiesgoBajoAdulto'	: RiesgoBajoAdulto(4),
+			'RiesgoMedioAdulto'	: RiesgoMedioAdulto(5),
+			'RiesgoAltoAdulto'	: RiesgoAltoAdulto(6)
 		}
 	
 	def obtenerCriterio(self, persona):
@@ -238,6 +232,3 @@ class AbstraerValorLimite(Regla):
 			solicitud.atributos.append(solicitud.atValorLimite)
 		
 		return solicitud
-
-
-
