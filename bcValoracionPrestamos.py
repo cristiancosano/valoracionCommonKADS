@@ -32,7 +32,7 @@ class Solicitud(Clase):
 		self.valorLimite=Atributo('ValorLimite', 'float', None)       
 		self.atcapacidadMaximaDePago('Capacidad Maxima de Pago', 'float', None) 
 		self.atributos=[self.atMotivo,self.atCantidad,self.atTiempoDevolucion]
-		self.criterio=Criterios("criterio")
+		self.criterio=Criterios()
 		r1 = AbstraerPosibilidadPago('r1')
 		self.reglas=[r1]
 

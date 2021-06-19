@@ -8,6 +8,10 @@ Autor: Cristian Cosano Cejas y Antonio Luis Rodriguez Jiménez
 Fecha: 20/06/2021
 '''
 
+from bcValoracionEmpleo import Persona, Solicitud
+
+
+
 class Dominio:
 	def __init__(self, persona, solicitud): 
 		self.persona            = persona
@@ -18,13 +22,16 @@ class Dominio:
 		self.personaAbstraida   = None
 		self.solicitudAbstraida = None
 		self.valorLimite        = None
+		
 
-	
+		
+			
 	def execute(self):
 		self.personaAbstraida, self.solicitudAbstraida = Abstraer(self.persona, self.solicitud).execute()
-		self.criterio, self.valorLimite                = Seleccionar(self.solicitudAbstraida).execute()
+		self.criterio, self.valorLimite                = Seleccionar(self.solicitudAbstraida, self.personaAbstraida).execute()
 		self.valor, self.solicitudAbstraida            = Evaluar(self.criterio, self.personaAbstraida, self.solicitudAbstraida).execute()
 		self.decision, self.solicitudAbstraida         = Equiparar(self.valorLimite, self.valor, self.solicitudAbstraida).execute()
+		
 		
 		return self.decision, self.solicitudAbstraida.descripcion
 
@@ -36,13 +43,14 @@ class Inferencia:
 
 class Abstraer(Inferencia):
 	def __init__(self, persona, solicitud):
-		super().__init__(self)
+		Inferencia.__init__(self)
 		self.persona = persona
 		self.solicitud = solicitud
 
 	def execute(self):
 		personaAbstraida    =   self.persona
 		solicitudAbstraida  =   self.solicitud
+		
 
 		for regla in personaAbstraida.reglas:
 			personaAbstraida = regla.execute(personaAbstraida, solicitudAbstraida)
@@ -56,18 +64,19 @@ class Seleccionar(Inferencia):
 	"""
 	Inferencia encargada de seleccionar el criterio y determinar valor limite para la solicitud
 	"""
-	def __init__(self, solicitud):
-		super().__init__(self)
+	def __init__(self, solicitud, persona):
+		Inferencia.__init__(self)
 		self.solicitud=solicitud
+		self.persona=persona
 	
 	def execute(self):
 		
-		criterio    =   self.solicitud.criterio
+		criterio    =   self.solicitud.criterio.obtenerCriterio(self.persona)
 		atributos   =   self.solicitud.atributos
-		
+				
 		for atributo in atributos:
-			if atributo.nombre == 'ValorLimite':
-				valorLimite = atributo.valor
+			if atributo.nombre == 'Valor limite': valorLimite = atributo.valor
+		
 					   
 		return criterio, valorLimite
 
@@ -76,7 +85,7 @@ class Evaluar(Inferencia):
 	Inferencia encargada de seleccionar obtener el valor asignado a la persona en funcion del criterio anteriormente seleccionado
 	"""	
 	def __init__(self, criterio,persona,solicitud):
-		super().__init__(self)
+		Inferencia.__init__(self)
 		self.criterio   =   criterio
 		self.persona    =   persona
 		self.solicitud  =   solicitud
@@ -97,6 +106,33 @@ class Equiparar(Inferencia):
 
 	def execute(self):
 		decision = self.valorLimite <= self.valor
-		self.solicitud.descripcion += 'El valor es '+ ('mayor', 'menor')[decision]+' que '+ str(self.valorLimite) + ' por tanto se'+('acepta', 'deniega')[decision]+'\n'
-		return decision, self.solicitud
+		descripcion = 'El valor es '+ ('mayor', 'menor')[decision]+' que '+ str(self.valorLimite) + ' por tanto se '+('acepta', 'deniega')[decision]+'\n'
+		print (descripcion)
+		return decision, descripcion
 	pass
+
+
+if __name__ == "__main__":
+	
+	persona1 = Persona()
+	persona1.setAtributoSiExiste('Titulacion', 'Grado superior informatica')
+	persona1.setAtributoSiExiste('Nota media', 9)
+	persona1.setAtributoSiExiste('Puestos ocupados', 'Desarrollador Web')
+	persona1.setAtributoSiExiste('Anyos de experiencia', 4)
+	persona1.setAtributoSiExiste('Disponibilidad vehiculo propio', True)
+	persona1.setAtributoSiExiste('Disponibilidad para viajar', True)
+		
+	
+	solicitud1 = Solicitud()
+	solicitud1.setAtributoSiExiste('Tipo de empleo', 'Nacional')
+	solicitud1.setAtributoSiExiste('Perfil del empleado', 'Junior')
+	
+	dominio = Dominio(persona1, solicitud1)
+	dominio.execute()
+		
+	
+	
+	
+	
+	
+	

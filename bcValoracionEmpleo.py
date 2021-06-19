@@ -22,17 +22,17 @@ class Persona(Clase):
     def __init__(self, nombre='Persona'):
         Clase.__init__(self, nombre=nombre)
         
-        self.titulacion = Atributo('Titulacion', 'multiple', None, None, None)
+        self.titulacion = Atributo('Titulacion', 'str', None)
         self.notaMedia = Atributo('Nota media', 'float', None)
-        self.puestosOcupados = Atributo('Puestos ocupados', 'multiple', None, None, None)
+        self.puestosOcupados = Atributo('Puestos ocupados', 'array', None, None, ['Desarrollador Web', 'Desarrollador multiplataforma'])
         self.anyosExperiencia = Atributo('Anyos de experiencia', 'int', None)
-        self.disponibilidadVehiculoPropio = Atributo('Disponibilidad de vehículo propio', 'boolean', None )
+        self.disponibilidadVehiculoPropio = Atributo('Disponibilidad vehiculo propio', 'boolean', None )
         self.disponibilidadViajar = Atributo('Disponibilidad para viajar', 'boolean', None )
-        self.valorLimite = Atributo('Valor limite', 'int', None)
         self.perfilEmpleado = Atributo('Perfil empleado', 'str', None)
+        self.puntuacionExito = Atributo('Puntuacion exito', 'int', None)
         self.atributos = [self.titulacion, self.notaMedia, self.puestosOcupados, self.anyosExperiencia, self.disponibilidadVehiculoPropio, self.disponibilidadViajar]
         r1 = AbstraerPerfilEmpleado('r1')
-        r2 = AbstraerPorcentajeExito('r2')
+        r2 = AbstraerPuntuacionExito('r2')
         self.reglas=[r1,r2]
         
 
@@ -40,8 +40,13 @@ class Solicitud(Clase):
     def __init__(self, nombre='Solicitud'):
         Clase.__init__(self, nombre=nombre)
         
-        self.atTipoEmpleo = Atributo('Tipo de empleo', 'multiple', None, None, ['Nacional', 'Internacional'] )
-        self.perfilEmpleado = Atributo('Perfil del empleado', 'multiple', None, None, ['Junior', 'MidLevel', 'Senior'])
+        self.atTipoEmpleo = Atributo('Tipo de empleo', 'array', None, None, ['Nacional', 'Internacional'] )
+        self.perfilEmpleado = Atributo('Perfil del empleado', 'array', None, None, ['Junior', 'MidLevel', 'Senior'])
+        self.valorLimite = Atributo('Valor limite', 'int', None)
+        self.criterio=Criterios()
+        r1 = AbstraerValorLimite('r1')
+        self.reglas=[r1]
+
         self.atributos = [self.atTipoEmpleo, self.perfilEmpleado]
 
 
@@ -49,19 +54,19 @@ class Solicitud(Clase):
 class Criterios:
     def __init__(self):
         self.criterios = {
-            'NacionalJunior': NacionalJunior(),
-            'NacionalMidLevel': NacionalMidLevel(),
-            'NacionalSenior': NacionalSenior(),
-            'InternacionalJunior': NacionalJunior(),
-            'InternacionalMidLevel': NacionalMidLevel(),
-            'InternacionalSenior': NacionalSenior(),  
+            'NacionalJunior': NacionalJunior(1),
+            'NacionalMidLevel': NacionalMidLevel(2),
+            'NacionalSenior': NacionalSenior(3),
+            'InternacionalJunior': NacionalJunior(4),
+            'InternacionalMidLevel': NacionalMidLevel(5),
+            'InternacionalSenior': NacionalSenior(6),  
         }
     
-    def obtenerCriterio(self, solicitud):
-        tipoEmpleo = solicitud.getAtributoValor('Tipo de empleo')
-        perfilEmpleado = solicitud.getAtributoValor('Perfil del empleado')
+    def obtenerCriterio(self, persona):
+        perfilEmpleado = persona.getAtributoValor('Perfil empleado')
+        disponibilidadViajar = persona.getAtributoValor('Disponibilidad para viajar')
     
-        return self.criterios[tipoEmpleo+perfilEmpleado]
+        return self.criterios[('Nacional', 'Internacional')[disponibilidadViajar]+perfilEmpleado]
 
 
 class NacionalJunior(Regla):
@@ -69,66 +74,93 @@ class NacionalJunior(Regla):
         Regla.__init__(self, idRegla)
     def execute(self, persona, solicitud):
         perfilPersona = persona.getAtributoValor('Perfil empleado')
+        disponibilidadVehiculo = persona.getAtributoValor('Disponibilidad vehiculo propio')
         if perfilPersona == 'Junior': valor = 3
-        if perfilPersona == 'MidLevel': valor = 2
-        if perfilPersona == 'Senior': valor = 1
+        elif perfilPersona == 'MidLevel': valor = 2
+        elif perfilPersona == 'Senior': valor = 1
         
-        return valor
+        if disponibilidadVehiculo == True: valor+= 5
+        
+        return valor, solicitud
 
 class NacionalMidLevel(Regla):
     def __init__(self, idRegla):
         Regla.__init__(self, idRegla)
     def execute(self, persona, solicitud):
         perfilPersona = persona.getAtributoValor('Perfil empleado')
+        disponibilidadVehiculo = persona.getAtributoValor('Disponibilidad vehiculo propio')
+
         if perfilPersona == 'Junior': valor = 2
-        if perfilPersona == 'MidLevel': valor = 3
-        if perfilPersona == 'Senior': valor = 1
-        return valor
+        elif perfilPersona == 'MidLevel': valor = 3
+        elif perfilPersona == 'Senior': valor = 1
+        
+        if disponibilidadVehiculo == True: valor+= 5
+
+        return valor, solicitud
 
 class NacionalSenior(Regla):
     def __init__(self, idRegla):
         Regla.__init__(self, idRegla)
     def execute(self, persona, solicitud):
         perfilPersona = persona.getAtributoValor('Perfil empleado')
-        if perfilPersona == 'Junior': valor = 1
-        if perfilPersona == 'MidLevel': valor = 2
-        if perfilPersona == 'Senior': valor = 3
-        return valor
+        disponibilidadVehiculo = persona.getAtributoValor('Disponibilidad vehiculo propio')
+
+        if perfilPersona == 'Junior': valor = 10
+        elif perfilPersona == 'MidLevel': valor = 20
+        elif perfilPersona == 'Senior': valor = 30
+        
+        if disponibilidadVehiculo == True: valor+= 15
+        valor+= persona.getAtributoValor('Porcentaje exito')
+        
+        return valor, solicitud
 
 class InternacionalJunior(Regla):
     def __init__(self, idRegla):
         Regla.__init__(self, idRegla)
     def execute(self, persona, solicitud):
         perfilPersona = persona.getAtributoValor('Perfil empleado')
-        if perfilPersona == 'Junior': valor = 3
-        if perfilPersona == 'MidLevel': valor = 2
-        if perfilPersona == 'Senior': valor = 1
-        return valor
+        disponibilidadViajar = persona.getAtributoValor('Disponibilidad para viajar')
+
+        if perfilPersona == 'Junior': valor = 30
+        elif perfilPersona == 'MidLevel': valor = 20
+        elif perfilPersona == 'Senior': valor = 10
+        
+        if disponibilidadViajar == True: valor+= 15
+        
+        return valor, solicitud
 
 class InternacionalMidLevel(Regla):
     def __init__(self, idRegla):
         Regla.__init__(self, idRegla)
     def execute(self, persona, solicitud):
         perfilPersona = persona.getAtributoValor('Perfil empleado')
-        if perfilPersona == 'Junior': valor = 2
-        if perfilPersona == 'MidLevel': valor = 3
-        if perfilPersona == 'Senior': valor = 1
-        return valor
+        disponibilidadViajar = persona.getAtributoValor('Disponibilidad para viajar')
+        if perfilPersona == 'Junior': valor = 20
+        elif perfilPersona == 'MidLevel': valor = 30
+        elif perfilPersona == 'Senior': valor = 10
+        
+        if disponibilidadViajar == True: valor+= 15
+        
+        return valor, solicitud
 
 class InternacionalSenior(Regla):
     def __init__(self, idRegla):
         Regla.__init__(self, idRegla)
     def execute(self, persona, solicitud):
         perfilPersona = persona.getAtributoValor('Perfil empleado')
-        if perfilPersona == 'Junior': valor = 1
-        if perfilPersona == 'MidLevel': valor = 2
-        if perfilPersona == 'Senior': valor = 3
-        return valor
+        disponibilidadViajar = persona.getAtributoValor('Disponibilidad para viajar')
+
+        if perfilPersona == 'Junior': valor = 10
+        elif perfilPersona == 'MidLevel': valor = 20
+        elif perfilPersona == 'Senior': valor = 30
+        
+        if disponibilidadViajar == True: valor+= 15
+
+        return valor, solicitud
     
 
 class AbstraerPerfilEmpleado(Regla):
       
-    
     def execute(self, persona, solicitud):
         def __init__(self, idRegla):
             Regla.__init__(self, idRegla)
@@ -137,42 +169,73 @@ class AbstraerPerfilEmpleado(Regla):
         anyosExperiencia = persona.getAtributoValor('Anyos de experiencia')
         
         if anyosExperiencia >= 5: perfilEmpleado = 'Senior'
-        if anyosExperiencia >=3 and anyosExperiencia <5: perfilEmpleado = 'Midlevel'
+        if anyosExperiencia >=3 and anyosExperiencia <5: perfilEmpleado = 'MidLevel'
         if anyosExperiencia <3: perfilEmpleado = 'Junior'
         
 
         resultado = persona.setAtributoSiExiste('Perfil empleado', perfilEmpleado)
         
-        if resultado != None: 
-            persona.perfilEmpelado.valor = perfilEmpleado
+        if resultado is None: 
+            persona.perfilEmpleado.valor = perfilEmpleado
             persona.atributos.append(persona.perfilEmpleado)
         
-        return solicitud
+        return persona
     
                 
 
-class AbstraerPorcentajeExito(Regla):
+class AbstraerPuntuacionExito(Regla):
     def __init__(self, idRegla):
         Regla.__init__(self, idRegla)
     
     def execute(self, persona, solicitud):
-        porcentajeExito = 0
+        puntuacionExito = 0
         puestosOcupados = persona.getAtributoValor('Puestos ocupados')
         anyosExperiencia = persona.getAtributoValor('Anyos de experiencia')
+    
         
-        if puestosOcupados >= 5: porcentajeExito = 70
-        if puestosOcupados <= 3: porcentajeExito = 40
-        if anyosExperiencia >= 3: porcentajeExito+= 20
-        if anyosExperiencia < 3: porcentajeExito+= 10
+        if len(puestosOcupados) >= 5: puntuacionExito = 70
+        if len(puestosOcupados) <= 3: puntuacionExito = 40
+        if anyosExperiencia >= 3: puntuacionExito+= 20
+        if anyosExperiencia < 3: puntuacionExito+= 10
         
         
-        resultado = persona.setAtributoSiExiste('Valor Limite', porcentajeExito)
+        resultado = persona.setAtributoSiExiste('Puntuacion exito', puntuacionExito)
         
-        if resultado != None: 
-            persona.porcentajeExito.valor = porcentajeExito
-            persona.atributos.append(persona.porcentajeExito)
+        if resultado is None: 
+            persona.puntuacionExito.valor = puntuacionExito
+            persona.atributos.append(persona.puntuacionExito)
+        
+        return persona
+    
+    
+class AbstraerValorLimite(Regla):
+    def __init__(self, idRegla):
+        Regla.__init__(self, idRegla)
+    
+    def execute(self, persona, solicitud):
+        valorLimite = 0
+        tipoEmpleo = solicitud.getAtributoValor('Tipo de empleo')
+        perfilEmpleo = solicitud.getAtributoValor('Perfil del empleado')
+    
+        if  tipoEmpleo == 'Nacional' and perfilEmpleo == 'Junior': valorLimite = 30
+        elif  tipoEmpleo == 'Nacional' and perfilEmpleo == 'MidLevel': valorLimite = 35
+        elif  tipoEmpleo == 'Nacional' and perfilEmpleo == 'Senior': valorLimite = 40
+        
+        elif  tipoEmpleo == 'Internacinal' and perfilEmpleo == 'Junior': valorLimite = 30
+        elif  tipoEmpleo == 'Internacional' and perfilEmpleo == 'MidLevel': valorLimite = 35
+        elif  tipoEmpleo == 'Internacional' and perfilEmpleo == 'Senior': valorLimite = 40
+        
+                
+        resultado = solicitud.setAtributoSiExiste('Valor limite', valorLimite)
+        
+        if resultado is None: 
+            solicitud.valorLimite.valor = valorLimite
+            solicitud.atributos.append(solicitud.valorLimite)
         
         return solicitud
+    
+    
+
 
     
     
