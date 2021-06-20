@@ -103,12 +103,10 @@ class ValoracionDlg(QWidget):
 	def setConnections(self):
 		self.dominioInput.currentIndexChanged.connect(self.setDominio)
 		self.criterioInput.currentIndexChanged.connect(self.setCriterio)
-		self.btnSalir.clicked.connect(self.salir)
+		self.btnSalir.clicked.connect(self.close)
 		self.btnValorar.clicked.connect(self.valorar)
 		self.btnLimpiar.clicked.connect(self.limpiar)
 	
-	def salir(self):
-		sys.exit()
 	def limpiar(self):
 		self.txtDecision.clear()
 		self.tableWidgetCaso.clear()
