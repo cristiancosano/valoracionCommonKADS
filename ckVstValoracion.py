@@ -132,6 +132,7 @@ class ValoracionDlg(QWidget):
 	def setTable(self):
 		numrows = self.tableWidgetCaso.rowCount()
 		self.tableWidgetCaso.clear()
+		self.tableWidgetCaso.setHorizontalHeaderLabels(self.header) 
 		data = self.dominio.Solicitud().atributos + self.dominio.Persona().atributos
 
 		needrows = len(data)

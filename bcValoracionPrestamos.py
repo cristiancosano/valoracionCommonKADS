@@ -29,7 +29,7 @@ class Solicitud(Clase):
 		self.atMotivo=Atributo('Motivo', 'multiple', None, None, ['Compra de Casa','Cambio Coche','Estudios'])
 		self.atCantidad=Atributo('Cantidad', 'int', None)
 		self.atTiempoDevolucion=Atributo('Tiempo Devolucion', 'int', None)
-		self.valorLimite=Atributo('ValorLimite', 'float', None)       
+		self.atValorLimite=Atributo('Valor limite', 'float', None)       
 		#self.atCapacidadMaximaDePago('Capacidad Maxima de Pago', 'float', None) 
 		self.atributos=[self.atMotivo,self.atCantidad,self.atTiempoDevolucion]
 		self.criterio=Criterios()
@@ -64,7 +64,7 @@ class Persona(Clase):
 		self.atSolvencia=Atributo('Solvencia','multiple',None,None,['Mucha','Poca','Media'])
 		self.atCapacidadEconomica=Atributo('Capacidad Economica', 'float', None)
 		#Se establece la lista de atributos que posee esta clase
-		self.atributos=[self.atNombre,self.atApellidos,self.atSueldoAnual,self.atSituacionLaboral]
+		self.atributos=[self.atNombre,self.atApellidos,self.atSueldoAnual,self.atSituacionLaboral, self.atPatrimonio, self.atPatrimonioAvalistas, self.atRiesgo, self.atEdad]
 		r1 = AbstraerSueldoMensual('r1')
 		r2 = AbstraerCapacidadEconomica('r2')
 		self.reglas=[r1,r2]
@@ -92,58 +92,58 @@ class RiesgoBajoJoven(Regla):
 	def __init__(self, idRegla):
 		Regla.__init__(self,idRegla)
 	def execute(self, persona, solicitud):
-		capacidadEconomica = persona.getAtributo('Capacidad Economica')
+		capacidadEconomica = persona.getAtributoValor('Capacidad Economica')
 		valor = 0.0
 		valor += capacidadEconomica * 12 * 25  # Persona joven
 		valor -= capacidadEconomica * 12 * 0   # Riesgo bajo
-		return valor
+		return valor, solicitud
 class RiesgoMedioJoven(Regla):
 	def __init__(self, idRegla):
 		Regla.__init__(self,idRegla)
 	def execute(self, persona, solicitud):
-		capacidadEconomica = persona.getAtributo('Capacidad Economica')
+		capacidadEconomica = persona.getAtributoValor('Capacidad Economica')
 		valor = 0.0
 		valor += capacidadEconomica * 12 * 25  # Persona joven
 		valor -= capacidadEconomica * 12 * 2.5 # Riesgo medio
-		return valor
+		return valor, solicitud
 class RiesgoAltoJoven(Regla):
 	def __init__(self, idRegla):
 		Regla.__init__(self,idRegla)
 	def execute(self, persona, solicitud):
-		capacidadEconomica = persona.getAtributo('Capacidad Economica')
+		capacidadEconomica = persona.getAtributoValor('Capacidad Economica')
 		valor = 0.0
 		valor += capacidadEconomica * 12 * 25  # Persona joven
 		valor -= capacidadEconomica * 12 * 5   # Riesgo alto
-		return valor
+		return valor, solicitud
 class RiesgoBajoAdulto(Regla):
 	def __init__(self, idRegla):
 		Regla.__init__(self,idRegla)
 	def execute(self, persona, solicitud):
-		capacidadEconomica = persona.getAtributo('Capacidad Economica')
+		capacidadEconomica = persona.getAtributoValor('Capacidad Economica')
 		valor = 0.0
 		valor += capacidadEconomica * 12 * 10 # Persona adulta
 		valor -= capacidadEconomica * 12 * 0  # Riesgo bajo
-		return valor	
+		return valor, solicitud	
 class RiesgoMedioAdulto(Regla):
 	def __init__(self, idRegla):
 		Regla.__init__(self,idRegla)
 	def execute(self, persona, solicitud):
-		capacidadEconomica = persona.getAtributo('Capacidad Economica')
+		capacidadEconomica = persona.getAtributoValor('Capacidad Economica')
 		valor = 0.0
 		valor += capacidadEconomica * 12 * 10   # Persona adulta
 		valor -= capacidadEconomica * 12 * 2.5  # Riesgo medio
-		return valor
+		return valor, solicitud
 class RiesgoAltoAdulto(Regla):
 	def __init__(self, idRegla):
 		Regla.__init__(self,idRegla)
 	def execute(self, persona, solicitud):
-		capacidadEconomica = persona.getAtributo('Capacidad Economica')
+		capacidadEconomica = persona.getAtributoValor('Capacidad Economica')
 		
 		valor = 0.0
 		valor += capacidadEconomica * 12 * 10 # Persona adulta
 		valor -= capacidadEconomica * 12 * 5  # Riesgo alto
 		
-		return valor
+		return valor, solicitud
 
   
 
@@ -211,7 +211,7 @@ class AbstraerValorLimite(Regla):
 			'Estudios': -400,
 			None: +500,
 		}
-		valorLimite += penalizaciones.get(solicitud.getAtributorValor('Motivo'))
+		valorLimite += penalizaciones.get(solicitud.getAtributoValor('Motivo'))
 		# sueldoAnual = persona.getAtributoValor('Sueldo Anual')
 		# patrimonio = persona.getAtributoValor('Patrimonio')
 		# patrimonioAvalistas = persona.getAtributoValor('Patrimonio Avalistas')

@@ -48,6 +48,7 @@ def valorarPrestamo(criterio, datos):
 	persona = bcValoracionPrestamos.Persona()
 	solicitud = bcValoracionPrestamos.Solicitud()
 
+	print(datos)
 	for dato in datos:
 		patributo = persona.getAtributo(dato['atributo'])
 		if patributo is not None:
@@ -59,19 +60,26 @@ def valorarPrestamo(criterio, datos):
 		if satributo is not None:
 			dato['valor'] = parseaAtributo(satributo, dato['valor'])
 			solicitud.setAtributoSiExiste(dato['atributo'], dato['valor'])
+
+	print('atributos de persona')
+	for atributo in persona.atributos:
+		print(atributo.nombre, atributo.tipo, atributo.valor)
+
+	print('atributos de solicitud')
+	for atributo in solicitud.atributos:
+		print(atributo.nombre, atributo.tipo, atributo.valor)
 		
-		dominio = Dominio(persona, solicitud)
+	dominio = Dominio(persona, solicitud)
 	return dominio.execute()
 
 def parseaAtributo(atributo, dato):
-	resultado = None
 	if atributo is not None:
 		if atributo.tipo == 'float':
-			resultado = float(dato)
+			dato = float(dato)
 		elif atributo.tipo == 'int':
-			resultado = int(dato)
+			dato = int(dato)
 		elif atributo.tipo == 'array':
-			resultado = dato.split(',')
+			dato = dato.split(',')
 		elif atributo.tipo == 'boolean':
-			resultado = dato == True
-	return resultado
+			dato = dato == True
+	return dato
