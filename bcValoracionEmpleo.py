@@ -208,7 +208,7 @@ class AbstraerPuntuacionExito(Regla):
 
         
         if len(puestosOcupados) >= 5: puntuacionExito = 4
-        elif len(puestosOcupados) <= 3: puntuacionExito = 2
+        elif len(puestosOcupados) <= 4: puntuacionExito = 2
         if anyosExperiencia >= 3: puntuacionExito+= 4
         elif anyosExperiencia < 3: puntuacionExito+= 2
         if len(titulaciones) > 2: puntuacionExito+= 2
@@ -236,7 +236,7 @@ class AbstraerValorLimite(Regla):
         elif  tipoEmpleo == 'Nacional' and perfilEmpleo == 'MidLevel': valorLimite = 35
         elif  tipoEmpleo == 'Nacional' and perfilEmpleo == 'Senior': valorLimite = 40
         
-        if    tipoEmpleo == 'Internacional' and perfilEmpleo == 'Junior': valorLimite = 30
+        if  tipoEmpleo == 'Internacional' and perfilEmpleo == 'Junior': valorLimite = 30
         elif  tipoEmpleo == 'Internacional' and perfilEmpleo == 'MidLevel': valorLimite = 35
         elif  tipoEmpleo == 'Internacional' and perfilEmpleo == 'Senior': valorLimite = 40
         
@@ -248,7 +248,6 @@ class AbstraerValorLimite(Regla):
             solicitud.atributos.append(solicitud.valorLimite)
         
         return solicitud
-    
     
 
 
