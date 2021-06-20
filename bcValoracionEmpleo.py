@@ -236,7 +236,7 @@ class AbstraerValorLimite(Regla):
         elif  tipoEmpleo == 'Nacional' and perfilEmpleo == 'MidLevel': valorLimite = 35
         elif  tipoEmpleo == 'Nacional' and perfilEmpleo == 'Senior': valorLimite = 40
         
-        elif  tipoEmpleo == 'Internacinal' and perfilEmpleo == 'Junior': valorLimite = 30
+        if  tipoEmpleo == 'Internacional' and perfilEmpleo == 'Junior': valorLimite = 30
         elif  tipoEmpleo == 'Internacional' and perfilEmpleo == 'MidLevel': valorLimite = 35
         elif  tipoEmpleo == 'Internacional' and perfilEmpleo == 'Senior': valorLimite = 40
         
