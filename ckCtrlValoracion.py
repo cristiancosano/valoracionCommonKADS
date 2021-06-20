@@ -41,7 +41,7 @@ def valorarEmpleo(criterio, datos):
 		if satributo is not None:
 			dato['valor'] = parseaAtributo(satributo, dato['valor'])
 			solicitud.setAtributoSiExiste(dato['atributo'], dato['valor'])
-	dominio = Dominio(persona, solicitud)
+	dominio = Dominio(persona, solicitud, criterio)
 	return dominio.execute()
 
 def valorarPrestamo(criterio, datos):
@@ -69,7 +69,7 @@ def valorarPrestamo(criterio, datos):
 	for atributo in solicitud.atributos:
 		print(atributo.nombre, atributo.tipo, atributo.valor)
 		
-	dominio = Dominio(persona, solicitud)
+	dominio = Dominio(persona, solicitud, criterio)
 	return dominio.execute()
 
 def parseaAtributo(atributo, dato):

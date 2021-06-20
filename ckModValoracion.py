@@ -13,9 +13,10 @@ from bcValoracionEmpleo import Persona, Solicitud
 
 
 class Dominio:
-	def __init__(self, persona, solicitud): 
+	def __init__(self, persona, solicitud, criterio): 
 		self.persona            = persona
 		self.solicitud          = solicitud
+		self.nombreCriterio 	= criterio
 		self.criterio           = None
 		self.decision           = None
 		self.valor              = None
@@ -28,7 +29,7 @@ class Dominio:
 			
 	def execute(self):
 		self.personaAbstraida, self.solicitudAbstraida = Abstraer(self.persona, self.solicitud).execute()
-		self.criterio, self.valorLimite                = Seleccionar(self.solicitudAbstraida, self.personaAbstraida).execute()
+		self.criterio, self.valorLimite                = Seleccionar(self.solicitudAbstraida, self.personaAbstraida, self.nombreCriterio).execute()
 		self.valor, self.solicitudAbstraida            = Evaluar(self.criterio, self.personaAbstraida, self.solicitudAbstraida).execute()
 		self.decision, self.descripcion                = Equiparar(self.valorLimite, self.valor, self.solicitudAbstraida).execute()
 		
@@ -64,20 +65,21 @@ class Seleccionar(Inferencia):
 	"""
 	Inferencia encargada de seleccionar el criterio y determinar valor limite para la solicitud
 	"""
-	def __init__(self, solicitud, persona):
+	def __init__(self, solicitud, persona, criterio):
 		Inferencia.__init__(self)
 		self.solicitud=solicitud
 		self.persona=persona
+		self.criterio=criterio
 	
 	def execute(self):
 		
-		criterio    =   self.solicitud.criterio.obtenerCriterio(self.persona)
+		criterio    =   self.solicitud.criterio.obtenerCriterio(self.criterio)
 		atributos   =   self.solicitud.atributos
-				
+
 		for atributo in atributos:
 			if atributo.nombre == 'Valor limite': valorLimite = atributo.valor
 		
-					   
+
 		return criterio, valorLimite
 
 class Evaluar(Inferencia):
