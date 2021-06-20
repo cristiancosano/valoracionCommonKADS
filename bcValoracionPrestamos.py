@@ -37,13 +37,9 @@ class Solicitud(Clase):
 class Persona(Clase):
 	"""
 	Describe los atributos por los que se caracterizará a una persona solicitante de un prestamo
-	@param: Nombre
-	@param: Apellidos
 	@param: Sueldo Mensual
 	@param: Sueldo Anual
 	@param: Situacion laboral: parado, trabajo temporal, trabajo fijo.
-	@param: Riesgo: alto, medio, bajo
-	@param: Solvencia: mucha, poca, media.
 	"""
   
 	def __init__(self,nombre=None):
@@ -55,9 +51,7 @@ class Persona(Clase):
 		self.atPatrimonio=Atributo('Patrimonio','float',None)
 		self.atPatrimonioAvalistas=Atributo('Patrimonio Avalistas','float',None)
 		self.atSituacionLaboral=Atributo('Situacion Laboral','multiple',None,None,['Parado','Trabajo Temporal','Trabajo Fijo'])
-		self.atRiesgo=Atributo('Riesgo','multiple',None,None,['Alto','Medio','Bajo'])
 		self.atEdad=Atributo('Edad', 'int', None)
-		self.atSolvencia=Atributo('Solvencia','multiple',None,None,['Mucha','Poca','Media'])
 		self.atCapacidadEconomica=Atributo('Capacidad Economica', 'float', None)
 
 		self.atributos=[self.atSueldoAnual,self.atSituacionLaboral, self.atPatrimonio, self.atPatrimonioAvalistas]
