@@ -108,7 +108,7 @@ class Equiparar(Inferencia):
 
 	def execute(self):
 		decision = self.valorLimite <= self.valor
-		descripcion = 'El valor ('+str(self.valor)+') es '+ ('mayor', 'menor')[decision]+' que '+ str(self.valorLimite) + ' por tanto se '+('acepta', 'deniega')[decision]+'\n'
+		descripcion = 'El valor ('+str(self.valor)+') es '+ ('menor', 'mayor')[decision]+' que '+ str(self.valorLimite) + ' por tanto se '+('deniega', 'acepta')[decision]+'\n'
 		return decision, descripcion
 	pass
 
@@ -128,7 +128,7 @@ if __name__ == "__main__":
 	solicitud1.setAtributoSiExiste('Tipo de empleo', 'Nacional')
 	solicitud1.setAtributoSiExiste('Perfil del empleado', 'Junior')
 	
-	dominio = Dominio(persona1, solicitud1)
+	dominio = Dominio(persona1, solicitud1, 'NacionalJunior')
 	decision, descripcion = dominio.execute()
 	print (descripcion)
 		
