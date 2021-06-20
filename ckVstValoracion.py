@@ -96,7 +96,7 @@ class ValoracionDlg(QWidget):
 		self.setConnections()
 		
 		#Display app
-		self.resize(800, 440)
+		self.resize(800, 510)
 		self.setWindowTitle("Tarea de Valoración")
 		self.show()
 		
