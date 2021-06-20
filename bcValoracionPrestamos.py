@@ -208,26 +208,7 @@ class AbstraerValorLimite(Regla):
 			None: +500*tiempoDevolucion,
 		}
 		valorLimite += motivoValor.get(solicitud.getAtributoValor('Motivo'))
-<<<<<<< HEAD
-		print(solicitud.getAtributoValor('Situacion Laboral'))
-		valorLimite += situacionLaboralValor.get(solicitud.getAtributoValor('Situacion Laboral')) 
-
-		# sueldoAnual = persona.getAtributoValor('Sueldo Anual')
-		# patrimonio = persona.getAtributoValor('Patrimonio')
-		# patrimonioAvalistas = persona.getAtributoValor('Patrimonio Avalistas')
-		# edad = persona.getAtributoValor('Edad')
-		# perfilRiesgo = persona.getAtributoValor('Riesgo')
-		# cantidadPrestamo = solicitud.getAtributoValor('Cantidad')
-
-		# capacidadMensual = (sueldoAnual / 12) + ((patrimonio + patrimonioAvalistas) / 240)
-
-		# capacidadMaximaDePago = 0.0
-		# capacidadMaximaDePago += [(capacidadMensual * 12 * 25), (capacidadMensual * 12 * 10)](edad < 50)
-		# capacidadMaximaDePago -= [(capacidadMensual * 12 * 10), 0](perfilRiesgo == 'Alto')
-		# capacidadMaximaDePago -= [(capacidadMensual * 12 * 5), 0](perfilRiesgo == 'Medio')
-=======
 		valorLimite += situacionLaboralValor.get(persona.getAtributoValor('Situacion Laboral'))
->>>>>>> df2b7fb34036dbe5aee7495cbcfbbe7b83972598
 
 		resultado = solicitud.setAtributoSiExiste('Valor Limite', valorLimite)
 		if(resultado is None): 
