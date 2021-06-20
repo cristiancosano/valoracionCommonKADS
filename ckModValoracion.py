@@ -24,9 +24,7 @@ class Dominio:
 		self.solicitudAbstraida = None
 		self.valorLimite        = None
 		
-
 		
-			
 	def execute(self):
 		self.personaAbstraida, self.solicitudAbstraida = Abstraer(self.persona, self.solicitud).execute()
 		self.criterio, self.valorLimite                = Seleccionar(self.solicitudAbstraida, self.personaAbstraida, self.nombreCriterio).execute()
