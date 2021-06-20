@@ -62,8 +62,6 @@ class Criterios:
         }
     
     def obtenerCriterio(self, criterio):
-        #perfilEmpleado = persona.getAtributoValor('Perfil empleado')
-        #disponibilidadViajar = persona.getAtributoValor('Disponibilidad para viajar')
     
         return self.criterios[criterio]
 
