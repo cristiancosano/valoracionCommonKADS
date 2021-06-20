@@ -162,7 +162,6 @@ class ValoracionDlg(QWidget):
 				datos.append({'atributo': self.tableWidgetCaso.item(i, 0).text(), 'valor': self.tableWidgetCaso.item(i,1).text()})
 			else:
 				datos.append({'atributo': self.tableWidgetCaso.item(i, 0).text(), 'valor': self.tableWidgetCaso.cellWidget(i,1).currentText()})
-		print(datos)
 		dominio = self.dominioInput.currentText()
 		criterio = self.criterioInput.currentText()
 		decision, descripcion = ctrl.valorar(dominio, criterio, datos)

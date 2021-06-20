@@ -26,7 +26,7 @@ class Solicitud(Clase):
 	def __init__(self,nombre=None):
 		Clase.__init__(self,nombre=nombre)
 		
-		self.atMotivo=Atributo('Motivo', 'multiple', None, None, ['Compra de Casa','Cambio Coche','Estudios'])
+		self.atMotivo=Atributo('Motivo', 'multiple', None, None, ['Compra de Casa','Cambio de Coche','Estudios'])
 		self.atCantidad=Atributo('Cantidad', 'int', None)
 		self.atTiempoDevolucion=Atributo('Tiempo Devolucion', 'int', None)
 		self.atValorLimite=Atributo('Valor limite', 'float', None)       
@@ -52,8 +52,8 @@ class Persona(Clase):
 
 		Clase.__init__(self,nombre=nombre)
 
-		self.atNombre=Atributo('Nombre','str',None)
-		self.atApellidos=Atributo('Apellidos','str',None)
+		#self.atNombre=Atributo('Nombre','str',None)
+		#self.atApellidos=Atributo('Apellidos','str',None)
 		self.atSueldoMensual=Atributo('Sueldo Mensual','float', None)
 		self.atSueldoAnual=Atributo('Sueldo Anual','float',None)
 		self.atPatrimonio=Atributo('Patrimonio','float',None)
@@ -64,7 +64,7 @@ class Persona(Clase):
 		self.atSolvencia=Atributo('Solvencia','multiple',None,None,['Mucha','Poca','Media'])
 		self.atCapacidadEconomica=Atributo('Capacidad Economica', 'float', None)
 		#Se establece la lista de atributos que posee esta clase
-		self.atributos=[self.atNombre,self.atApellidos,self.atSueldoAnual,self.atSituacionLaboral, self.atPatrimonio, self.atPatrimonioAvalistas]
+		self.atributos=[self.atSueldoAnual,self.atSituacionLaboral, self.atPatrimonio, self.atPatrimonioAvalistas]
 		r1 = AbstraerSueldoMensual('r1')
 		r2 = AbstraerCapacidadEconomica('r2')
 		self.reglas=[r1,r2]

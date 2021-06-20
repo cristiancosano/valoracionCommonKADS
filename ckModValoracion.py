@@ -128,7 +128,6 @@ if __name__ == "__main__":
 	
 	dominio = Dominio(persona1, solicitud1, 'NacionalJunior')
 	decision, descripcion = dominio.execute()
-	print (descripcion)
 		
 	
 	
