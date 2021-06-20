@@ -8,8 +8,6 @@ Autor: Cristian Cosano Cejas y Antonio Luis Rodriguez Jiménez
 Fecha: 20/06/2021
 '''
 
-import types
-
 class Clase():
 	def __init__(self, nombre):
 		self.nombre=nombre
@@ -56,8 +54,6 @@ class Atributo():
 		self.posiblesValores = posiblesValores
 
 		# Obtenemos los posibles valores del atributo en caso de que sea de tipo multiple
-		#if (tipo=='multiple') and (posiblesValores is not None) and (type(posiblesValores) is types.ListType):
-		#	self.posiblesValores = posiblesValores 
 		if tipo == 'multiple':
 			self.posiblesValores = posiblesValores
 			
