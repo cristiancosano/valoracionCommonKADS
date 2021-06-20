@@ -61,11 +61,11 @@ class Criterios:
             'InternacionalSenior': NacionalSenior(6),  
         }
     
-    def obtenerCriterio(self, persona):
-        perfilEmpleado = persona.getAtributoValor('Perfil empleado')
-        disponibilidadViajar = persona.getAtributoValor('Disponibilidad para viajar')
+    def obtenerCriterio(self, criterio):
+        #perfilEmpleado = persona.getAtributoValor('Perfil empleado')
+        #disponibilidadViajar = persona.getAtributoValor('Disponibilidad para viajar')
     
-        return self.criterios[('Nacional', 'Internacional')[disponibilidadViajar]+perfilEmpleado]
+        return self.criterios[criterio]
 
 
 class NacionalJunior(Regla):
