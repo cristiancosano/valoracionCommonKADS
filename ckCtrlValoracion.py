@@ -51,8 +51,6 @@ def valorarPrestamo(criterio, datos):
 	persona = bcValoracionPrestamos.Persona()
 	solicitud = bcValoracionPrestamos.Solicitud()
 
-	print(datos)
-
 	for dato in datos:
 		patributo = persona.getAtributo(dato['atributo'])
 		if patributo is not None:

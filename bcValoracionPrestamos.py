@@ -205,22 +205,22 @@ class AbstraerValorLimite(Regla):
 		Regla.__init__(self,idRegla)
 		
 	def execute(self, persona, solicitud):
-		valorLimite = ((solicitud.getAtributoValor('Cantidad') / solicitud.getAtributoValor('Tiempo Devolucion')) / 12)
+		valorLimite = solicitud.getAtributoValor('Cantidad')
+		tiempoDevolucion = float(solicitud.getAtributoValor('Tiempo Devolucion'))
 		motivoValor = {
-			'Compra de Casa': -150,
-			'Cambio de Coche': +150,
-			'Estudios': -400,
-			None: +500,
+			'Compra de Casa': -150*tiempoDevolucion,
+			'Cambio de Coche': +150*tiempoDevolucion,
+			'Estudios': -400*tiempoDevolucion,
+			None: +500*tiempoDevolucion,
 		}
 		situacionLaboralValor = {
-			'Parado': +550,
-			'Trabajo Temporal': -50,
-			'Trabajo Fijo': -500,
-			None: +500,
+			'Parado': +550*tiempoDevolucion,
+			'Trabajo Temporal': -50*tiempoDevolucion,
+			'Trabajo Fijo': -500*tiempoDevolucion,
+			None: +500*tiempoDevolucion,
 		}
 		valorLimite += motivoValor.get(solicitud.getAtributoValor('Motivo'))
-		print(solicitud.getAtributoValor('Situacion Laboral'))
-		valorLimite += situacionLaboralValor.get(solicitud.getAtributoValor('Situacion Laboral'))
+		valorLimite += situacionLaboralValor.get(persona.getAtributoValor('Situacion Laboral'))
 
 		# sueldoAnual = persona.getAtributoValor('Sueldo Anual')
 		# patrimonio = persona.getAtributoValor('Patrimonio')
