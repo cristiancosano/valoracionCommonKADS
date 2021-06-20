@@ -17,6 +17,7 @@ def obtenerDominio(dominio):
 			'Prestamos': bcValoracionPrestamos
 	}
     return dominios[dominio]
+
 def valorar(dominio, criterio, datos):
 	resultado = None
 	for dato in datos:

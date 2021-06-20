@@ -37,7 +37,6 @@ class Clase():
 				response = atributo
 		return response
 
-
 class Regla():
 	def __init__(self,idRegla):
 		self.idRegla=idRegla
