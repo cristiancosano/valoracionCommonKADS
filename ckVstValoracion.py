@@ -23,6 +23,7 @@ class ValoracionDlg(QWidget):
 		self.nombreDominio = ''
 		self.dominio = None
 		self.criterios = None
+		self.criterio = None
 		
 	def initUI(self):
 		
@@ -37,10 +38,12 @@ class ValoracionDlg(QWidget):
 		
 		#Buttons
 		self.btnValorar = QPushButton("Valorar")
+		self.btnLimpiar = QPushButton("Limpiar")
 		self.btnSalir = QPushButton("Salir")
 		self.btnsLayout = QHBoxLayout()
 		self.btnsLayout.addStretch()
 		self.btnsLayout.addWidget(self.btnValorar)
+		self.btnsLayout.addWidget(self.btnLimpiar)
 		self.btnsLayout.addWidget(self.btnSalir)
 		self.btnsLayout.addStretch()
 
@@ -56,13 +59,10 @@ class ValoracionDlg(QWidget):
 		self.dominioInput = QComboBox()
 		self.dominioInput.addItem('Empleo')
 		self.dominioInput.addItem('Prestamos')
-		self.setDominio(self)
+		self.setDominio()
+		self.setCriterio()
 		self.txtDecision = QTextEdit()
 		self.txtDecision.setReadOnly(True)
-		
-	
-		
-		
 		
 		#Grid
 		grid = QGridLayout()
@@ -102,13 +102,20 @@ class ValoracionDlg(QWidget):
 		
 	def setConnections(self):
 		self.dominioInput.currentIndexChanged.connect(self.setDominio)
+		self.criterioInput.currentIndexChanged.connect(self.setCriterio)
 		self.btnSalir.clicked.connect(self.salir)
 		self.btnValorar.clicked.connect(self.valorar)
+		self.btnLimpiar.clicked.connect(self.limpiar)
 	
 	def salir(self):
 		sys.exit()
+	def limpiar(self):
+		self.txtDecision.clear()
+		self.tableWidgetCaso.clear()
+		self.setDominio()
 
-	def setDominio(self, i):
+
+	def setDominio(self,i=0):
 		self.nombreDominio = self.dominioInput.currentText()
 		self.dominio = ctrl.obtenerDominio(self.nombreDominio)
 		self.setTable()
@@ -119,9 +126,12 @@ class ValoracionDlg(QWidget):
 		self.criterioInput.clear()
 		for criterio in self.criterios.keys():
 			self.criterioInput.addItem(criterio)
+	def setCriterio(self):
+		self.criterio = self.criterioInput.currentText()
 			
 	def setTable(self):
 		numrows = self.tableWidgetCaso.rowCount()
+		self.tableWidgetCaso.clear()
 		data = self.dominio.Solicitud().atributos + self.dominio.Persona().atributos
 
 		needrows = len(data)
@@ -131,8 +141,12 @@ class ValoracionDlg(QWidget):
 			elif(numrows < needrows):
 				self.tableWidgetCaso.insertRow(numrows)
 			numrows = self.tableWidgetCaso.rowCount()
+
 		for i in range(len(data)):
-			self.tableWidgetCaso.setItem(i, 0, QTableWidgetItem(data[i].nombre))
+			atributo = QTableWidgetItem(data[i].nombre)
+			atributo.setFlags(QtCore.Qt.ItemIsEditable)
+			self.tableWidgetCaso.setItem(i, 0, atributo)
+
 			if (data[i].tipo == 'boolean' or data[i].tipo == 'multiple'):
 				cb = QComboBox()
 				cb.addItems(data[i].posiblesValores)
@@ -141,8 +155,17 @@ class ValoracionDlg(QWidget):
 			else: self.tableWidgetCaso.setItem(i, 1, QTableWidgetItem(data[i].valor))	
 	
 	def valorar(self):
-		decision = ctrl.valorar()
-		self.txtDecision.setText(decision)
+		datos = []
+		for i in range(self.tableWidgetCaso.rowCount()):
+			if(self.tableWidgetCaso.item(i,1) is not None):
+				datos.append({'atributo': self.tableWidgetCaso.item(i, 0).text(), 'valor': self.tableWidgetCaso.item(i,1).text()})
+			else:
+				datos.append({'atributo': self.tableWidgetCaso.item(i, 0).text(), 'valor': self.tableWidgetCaso.cellWidget(i,1).currentText()})
+		print(datos)
+		dominio = self.dominioInput.currentText()
+		criterio = self.criterioInput.currentText()
+		decision, descripcion = ctrl.valorar(dominio, criterio, datos)
+		self.txtDecision.setText(descripcion)
 
 if __name__=='__main__':
 	app = QtWidgets.QApplication(sys.argv) #Create an applitacion

@@ -40,8 +40,8 @@ class Solicitud(Clase):
     def __init__(self, nombre='Solicitud'):
         Clase.__init__(self, nombre=nombre)
         
-        self.atTipoEmpleo = Atributo('Tipo de empleo', 'array', None, None, ['Nacional', 'Internacional'] )
-        self.perfilEmpleado = Atributo('Perfil del empleado', 'array', None, None, ['Junior', 'MidLevel', 'Senior'])
+        self.atTipoEmpleo = Atributo('Tipo de empleo', 'multiple', None, None, ['Nacional', 'Internacional'] )
+        self.perfilEmpleado = Atributo('Perfil del empleado', 'multiple', None, None, ['Junior', 'MidLevel', 'Senior'])
         self.valorLimite = Atributo('Valor limite', 'int', None)
         self.criterio=Criterios()
         r1 = AbstraerValorLimite('r1')
