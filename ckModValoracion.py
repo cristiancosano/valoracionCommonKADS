@@ -106,7 +106,7 @@ class Equiparar(Inferencia):
 
 	def execute(self):
 		decision = self.valorLimite <= self.valor
-		descripcion = 'El valor ('+str(self.valor)+') es '+ ('menor', 'mayor')[decision]+' que '+ str(self.valorLimite) + ' por tanto se '+('deniega', 'acepta')[decision]+'\n'
+		descripcion = 'El valor '+str(round(self.valor, 2))+' es '+ ('menor', 'mayor')[decision]+' que '+ str(round(self.valorLimite, 2)) + ' por tanto se '+('deniega', 'acepta')[decision]+'\n'
 		return decision, descripcion
 	pass
 
