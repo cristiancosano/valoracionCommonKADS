@@ -19,9 +19,12 @@ def obtenerDominio(dominio):
     return dominios[dominio]
 def valorar(dominio, criterio, datos):
 	resultado = None
-	if(dominio == 'Empleo'):
+	for dato in datos:
+		if dato['valor'] == '': 
+			resultado = False, 'Error: Para procesar la solicitud todos los datos deben ser rellenados'
+	if(dominio == 'Empleo' and resultado is None):
 		resultado = valorarEmpleo(criterio, datos)
-	elif(dominio == 'Prestamos'):
+	elif(dominio == 'Prestamos' and resultado is None):
 		resultado = valorarPrestamo(criterio, datos)
 	
 	return resultado
@@ -48,7 +51,6 @@ def valorarPrestamo(criterio, datos):
 	persona = bcValoracionPrestamos.Persona()
 	solicitud = bcValoracionPrestamos.Solicitud()
 
-	print(datos)
 	for dato in datos:
 		patributo = persona.getAtributo(dato['atributo'])
 		if patributo is not None:
@@ -60,14 +62,6 @@ def valorarPrestamo(criterio, datos):
 		if satributo is not None:
 			dato['valor'] = parseaAtributo(satributo, dato['valor'])
 			solicitud.setAtributoSiExiste(dato['atributo'], dato['valor'])
-
-	print('atributos de persona')
-	for atributo in persona.atributos:
-		print(atributo.nombre, atributo.tipo, atributo.valor)
-
-	print('atributos de solicitud')
-	for atributo in solicitud.atributos:
-		print(atributo.nombre, atributo.tipo, atributo.valor)
 		
 	dominio = Dominio(persona, solicitud, criterio)
 	return dominio.execute()
