@@ -64,7 +64,7 @@ class Persona(Clase):
 		self.atSolvencia=Atributo('Solvencia','multiple',None,None,['Mucha','Poca','Media'])
 		self.atCapacidadEconomica=Atributo('Capacidad Economica', 'float', None)
 		#Se establece la lista de atributos que posee esta clase
-		self.atributos=[self.atNombre,self.atApellidos,self.atSueldoAnual,self.atSituacionLaboral, self.atPatrimonio, self.atPatrimonioAvalistas, self.atRiesgo, self.atEdad]
+		self.atributos=[self.atNombre,self.atApellidos,self.atSueldoAnual,self.atSituacionLaboral, self.atPatrimonio, self.atPatrimonioAvalistas]
 		r1 = AbstraerSueldoMensual('r1')
 		r2 = AbstraerCapacidadEconomica('r2')
 		self.reglas=[r1,r2]
@@ -82,11 +82,12 @@ class Criterios:
 			'RiesgoAltoAdulto'	: RiesgoAltoAdulto(6)
 		}
 	
-	def obtenerCriterio(self, persona):
-		edad = persona.getAtributoValor('Edad')
-		riesgo = persona.getAtributoValor('Riesgo')
+	def obtenerCriterio(self, criterio):
+		#edad = persona.getAtributoValor('Edad')
+		#riesgo = persona.getAtributoValor('Riesgo')
 		
-		return self.criterios['Riesgo'+riesgo.capitalize()+('Joven', 'Adulto')[edad<50]]
+		#return self.criterios['Riesgo'+riesgo.capitalize()+('Joven', 'Adulto')[edad<50]]
+		return self.criterios[criterio]
 
 class RiesgoBajoJoven(Regla):
 	def __init__(self, idRegla):
