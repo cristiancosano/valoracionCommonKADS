@@ -22,15 +22,14 @@ class Persona(Clase):
     def __init__(self, nombre='Persona'):
         Clase.__init__(self, nombre=nombre)
         
-        self.titulacion = Atributo('Titulacion', 'str', None)
-        self.notaMedia = Atributo('Nota media', 'float', None)
-        self.puestosOcupados = Atributo('Puestos ocupados', 'array', None, None, ['Desarrollador Web', 'Desarrollador multiplataforma'])
+        self.titulacion = Atributo('Titulacion', 'array', None, None, None)
+        self.puestosOcupados = Atributo('Puestos ocupados', 'array', None, None, None)
         self.anyosExperiencia = Atributo('Anyos de experiencia', 'int', None)
         self.disponibilidadVehiculoPropio = Atributo('Disponibilidad vehiculo propio', 'boolean', None )
         self.disponibilidadViajar = Atributo('Disponibilidad para viajar', 'boolean', None )
         self.perfilEmpleado = Atributo('Perfil empleado', 'str', None)
         self.puntuacionExito = Atributo('Puntuacion exito', 'int', None)
-        self.atributos = [self.titulacion, self.notaMedia, self.puestosOcupados, self.anyosExperiencia, self.disponibilidadVehiculoPropio, self.disponibilidadViajar]
+        self.atributos = [self.titulacion, self.puestosOcupados, self.anyosExperiencia, self.disponibilidadVehiculoPropio, self.disponibilidadViajar]
         r1 = AbstraerPerfilEmpleado('r1')
         r2 = AbstraerPuntuacionExito('r2')
         self.reglas=[r1,r2]
@@ -75,11 +74,13 @@ class NacionalJunior(Regla):
     def execute(self, persona, solicitud):
         perfilPersona = persona.getAtributoValor('Perfil empleado')
         disponibilidadVehiculo = persona.getAtributoValor('Disponibilidad vehiculo propio')
-        if perfilPersona == 'Junior': valor = 3
-        elif perfilPersona == 'MidLevel': valor = 2
-        elif perfilPersona == 'Senior': valor = 1
+        
+        if perfilPersona == 'Junior': valor = 30
+        elif perfilPersona == 'MidLevel': valor = 20
+        elif perfilPersona == 'Senior': valor = 10
         
         if disponibilidadVehiculo == True: valor+= 5
+        valor+= persona.getAtributoValor('Puntuacion exito')
         
         return valor, solicitud
 
@@ -90,11 +91,14 @@ class NacionalMidLevel(Regla):
         perfilPersona = persona.getAtributoValor('Perfil empleado')
         disponibilidadVehiculo = persona.getAtributoValor('Disponibilidad vehiculo propio')
 
-        if perfilPersona == 'Junior': valor = 2
-        elif perfilPersona == 'MidLevel': valor = 3
-        elif perfilPersona == 'Senior': valor = 1
+
+        if perfilPersona == 'Junior': valor = 20
+        elif perfilPersona == 'MidLevel': valor = 30
+        elif perfilPersona == 'Senior': valor = 10
         
         if disponibilidadVehiculo == True: valor+= 5
+        valor+= persona.getAtributoValor('Puntuacion exito')
+
 
         return valor, solicitud
 
@@ -105,12 +109,14 @@ class NacionalSenior(Regla):
         perfilPersona = persona.getAtributoValor('Perfil empleado')
         disponibilidadVehiculo = persona.getAtributoValor('Disponibilidad vehiculo propio')
 
+
         if perfilPersona == 'Junior': valor = 10
         elif perfilPersona == 'MidLevel': valor = 20
         elif perfilPersona == 'Senior': valor = 30
         
-        if disponibilidadVehiculo == True: valor+= 15
-        valor+= persona.getAtributoValor('Porcentaje exito')
+        if disponibilidadVehiculo == True: valor+= 5
+        valor+= persona.getAtributoValor('Puntuacion exito')
+        
         
         return valor, solicitud
 
@@ -125,7 +131,10 @@ class InternacionalJunior(Regla):
         elif perfilPersona == 'MidLevel': valor = 20
         elif perfilPersona == 'Senior': valor = 10
         
-        if disponibilidadViajar == True: valor+= 15
+        if disponibilidadViajar == True: valor+= 5
+        
+        valor+= persona.getAtributoValor('Puntuacion exito')
+
         
         return valor, solicitud
 
@@ -139,7 +148,9 @@ class InternacionalMidLevel(Regla):
         elif perfilPersona == 'MidLevel': valor = 30
         elif perfilPersona == 'Senior': valor = 10
         
-        if disponibilidadViajar == True: valor+= 15
+        if disponibilidadViajar == True: valor+= 5
+        
+        valor+= persona.getAtributoValor('Puntuacion exito')
         
         return valor, solicitud
 
@@ -154,13 +165,15 @@ class InternacionalSenior(Regla):
         elif perfilPersona == 'MidLevel': valor = 20
         elif perfilPersona == 'Senior': valor = 30
         
-        if disponibilidadViajar == True: valor+= 15
+        if disponibilidadViajar == True: valor+= 5
+        valor+= persona.getAtributoValor('Puntuacion exito')
+
 
         return valor, solicitud
     
 
 class AbstraerPerfilEmpleado(Regla):
-      
+
     def execute(self, persona, solicitud):
         def __init__(self, idRegla):
             Regla.__init__(self, idRegla)
@@ -191,13 +204,15 @@ class AbstraerPuntuacionExito(Regla):
         puntuacionExito = 0
         puestosOcupados = persona.getAtributoValor('Puestos ocupados')
         anyosExperiencia = persona.getAtributoValor('Anyos de experiencia')
-    
+        titulaciones = persona.getAtributoValor('Titulacion')
+
         
-        if len(puestosOcupados) >= 5: puntuacionExito = 70
-        if len(puestosOcupados) <= 3: puntuacionExito = 40
-        if anyosExperiencia >= 3: puntuacionExito+= 20
-        if anyosExperiencia < 3: puntuacionExito+= 10
-        
+        if len(puestosOcupados) >= 5: puntuacionExito = 4
+        elif len(puestosOcupados) <= 3: puntuacionExito = 2
+        if anyosExperiencia >= 3: puntuacionExito+= 4
+        elif anyosExperiencia < 3: puntuacionExito+= 2
+        if len(titulaciones) > 2: puntuacionExito+= 2
+
         
         resultado = persona.setAtributoSiExiste('Puntuacion exito', puntuacionExito)
         
