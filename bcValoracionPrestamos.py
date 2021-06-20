@@ -220,7 +220,7 @@ class AbstraerValorLimite(Regla):
 		}
 		valorLimite += motivoValor.get(solicitud.getAtributoValor('Motivo'))
 		print(solicitud.getAtributoValor('Situacion Laboral'))
-		valorLimite += situacionLaboralValor.get(solicitud.getAtributoValor('Situacion Laboral'))
+		valorLimite += situacionLaboralValor.get(solicitud.getAtributoValor('Situacion Laboral')) 
 
 		# sueldoAnual = persona.getAtributoValor('Sueldo Anual')
 		# patrimonio = persona.getAtributoValor('Patrimonio')
