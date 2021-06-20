@@ -31,7 +31,6 @@ def valorarEmpleo(criterio, datos):
 	solicitud = bcValoracionEmpleo.Solicitud()
 
 	for dato in datos:
-		print(dato)
 		patributo = persona.getAtributo(dato['atributo'])
 		if patributo is not None:
 			dato['valor'] = parseaAtributo(patributo, dato['valor'])
@@ -44,10 +43,25 @@ def valorarEmpleo(criterio, datos):
 			solicitud.setAtributoSiExiste(dato['atributo'], dato['valor'])
 	dominio = Dominio(persona, solicitud)
 	return dominio.execute()
+
 def valorarPrestamo(criterio, datos):
 	persona = bcValoracionPrestamos.Persona()
 	solicitud = bcValoracionPrestamos.Solicitud()
-	return 'pres'
+
+	for dato in datos:
+		patributo = persona.getAtributo(dato['atributo'])
+		if patributo is not None:
+			dato['valor'] = parseaAtributo(patributo, dato['valor'])
+			persona.setAtributoSiExiste(dato['atributo'], dato['valor'])
+
+
+		satributo = solicitud.getAtributo(dato['atributo'])
+		if satributo is not None:
+			dato['valor'] = parseaAtributo(satributo, dato['valor'])
+			solicitud.setAtributoSiExiste(dato['atributo'], dato['valor'])
+		
+		dominio = Dominio(persona, solicitud)
+	return dominio.execute()
 
 def parseaAtributo(atributo, dato):
 	resultado = None
