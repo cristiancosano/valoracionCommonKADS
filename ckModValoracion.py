@@ -29,7 +29,7 @@ class Dominio:
 		self.personaAbstraida, self.solicitudAbstraida = Abstraer(self.persona, self.solicitud).execute()
 		self.criterio, self.valorLimite                = Seleccionar(self.solicitudAbstraida, self.personaAbstraida, self.nombreCriterio).execute()
 		self.valor, self.solicitudAbstraida            = Evaluar(self.criterio, self.personaAbstraida, self.solicitudAbstraida).execute()
-		self.decision, self.descripcion                = Equiparar(self.valorLimite, self.valor, self.solicitudAbstraida).execute()
+		self.decision, self.descripcion                = Equiparar(self.valorLimite, self.valor).execute()
 		
 		
 		return self.decision, self.descripcion
@@ -98,15 +98,14 @@ class Equiparar(Inferencia):
 	"""
 	Inferencia encargada de equiparar el valor limite con el valor obtenido por la persona en la inferencia evaluar
 	""" 
-	def __init__(self, valorLimite, valor,solicitud):
+	def __init__(self, valorLimite, valor):
 		Inferencia.__init__(self)
 		self.valorLimite    =   valorLimite
 		self.valor          =   valor 
-		self.solicitud      =   solicitud
 
 	def execute(self):
 		decision = self.valorLimite <= self.valor
-		descripcion = 'El valor ('+str(self.valor)+') es '+ ('menor', 'mayor')[decision]+' que '+ str(self.valorLimite) + ' por tanto se '+('deniega', 'acepta')[decision]+'\n'
+		descripcion = 'El valor '+str(round(self.valor, 2))+' es '+ ('menor', 'mayor')[decision]+' que '+ str(round(self.valorLimite, 2)) + ' por tanto se '+('deniega', 'acepta')[decision]+'\n'
 		return decision, descripcion
 	pass
 
@@ -128,7 +127,7 @@ if __name__ == "__main__":
 	
 	dominio = Dominio(persona1, solicitud1, 'NacionalJunior')
 	decision, descripcion = dominio.execute()
-		
+	print(descripcion)
 	
 	
 	

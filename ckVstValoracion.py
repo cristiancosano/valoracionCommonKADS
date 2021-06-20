@@ -10,9 +10,9 @@ Fecha: 20/06/2021
 import sys
 from PyQt5 import QtWidgets
 from PyQt5 import QtCore
-from PyQt5.QtWidgets import (QWidget, QDialog, QComboBox, QTableWidget, QApplication, QGridLayout,
-							 QPushButton, QLabel, QLineEdit, QListWidget, QTableWidgetItem,
-							 QTextEdit, QHBoxLayout, QVBoxLayout, QFileDialog)
+from PyQt5.QtWidgets import (QWidget, QComboBox, QTableWidget, QGridLayout,
+							 QPushButton, QLabel, QTableWidgetItem,
+							 QTextEdit, QHBoxLayout, QVBoxLayout)
 
 import ckCtrlValoracion as ctrl
 

@@ -17,6 +17,7 @@ def obtenerDominio(dominio):
 			'Prestamos': bcValoracionPrestamos
 	}
     return dominios[dominio]
+
 def valorar(dominio, criterio, datos):
 	resultado = None
 	for dato in datos:
@@ -50,8 +51,6 @@ def valorarEmpleo(criterio, datos):
 def valorarPrestamo(criterio, datos):
 	persona = bcValoracionPrestamos.Persona()
 	solicitud = bcValoracionPrestamos.Solicitud()
-
-	print(datos)
 
 	for dato in datos:
 		patributo = persona.getAtributo(dato['atributo'])

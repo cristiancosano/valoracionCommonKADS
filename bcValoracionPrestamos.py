@@ -12,7 +12,6 @@ from bcValoracion import Clase, Atributo, Regla
 
 # Objetos de la base del conocimiento
 
-
 class Solicitud(Clase):
 	"""
 	Clase para la representacion de la solicitud de un prestamo
@@ -30,7 +29,6 @@ class Solicitud(Clase):
 		self.atCantidad=Atributo('Cantidad', 'int', None)
 		self.atTiempoDevolucion=Atributo('Tiempo Devolucion', 'int', None)
 		self.atValorLimite=Atributo('Valor limite', 'float', None)       
-		#self.atCapacidadMaximaDePago('Capacidad Maxima de Pago', 'float', None) 
 		self.atributos=[self.atMotivo,self.atCantidad,self.atTiempoDevolucion]
 		self.criterio=Criterios()
 		r1 = AbstraerValorLimite('r1')
@@ -52,8 +50,6 @@ class Persona(Clase):
 
 		Clase.__init__(self,nombre=nombre)
 
-		#self.atNombre=Atributo('Nombre','str',None)
-		#self.atApellidos=Atributo('Apellidos','str',None)
 		self.atSueldoMensual=Atributo('Sueldo Mensual','float', None)
 		self.atSueldoAnual=Atributo('Sueldo Anual','float',None)
 		self.atPatrimonio=Atributo('Patrimonio','float',None)
@@ -63,7 +59,7 @@ class Persona(Clase):
 		self.atEdad=Atributo('Edad', 'int', None)
 		self.atSolvencia=Atributo('Solvencia','multiple',None,None,['Mucha','Poca','Media'])
 		self.atCapacidadEconomica=Atributo('Capacidad Economica', 'float', None)
-		#Se establece la lista de atributos que posee esta clase
+
 		self.atributos=[self.atSueldoAnual,self.atSituacionLaboral, self.atPatrimonio, self.atPatrimonioAvalistas]
 		r1 = AbstraerSueldoMensual('r1')
 		r2 = AbstraerCapacidadEconomica('r2')
@@ -83,10 +79,6 @@ class Criterios:
 		}
 	
 	def obtenerCriterio(self, criterio):
-		#edad = persona.getAtributoValor('Edad')
-		#riesgo = persona.getAtributoValor('Riesgo')
-		
-		#return self.criterios['Riesgo'+riesgo.capitalize()+('Joven', 'Adulto')[edad<50]]
 		return self.criterios[criterio]
 
 class RiesgoBajoJoven(Regla):
@@ -146,11 +138,7 @@ class RiesgoAltoAdulto(Regla):
 		
 		return valor, solicitud
 
-  
-
-
 # Abstracciones
-
 
 class AbstraerSueldoMensual(Regla):
 	"""
@@ -205,20 +193,22 @@ class AbstraerValorLimite(Regla):
 		Regla.__init__(self,idRegla)
 		
 	def execute(self, persona, solicitud):
-		valorLimite = ((solicitud.getAtributoValor('Cantidad') / solicitud.getAtributoValor('Tiempo Devolucion')) / 12)
+		valorLimite = solicitud.getAtributoValor('Cantidad')
+		tiempoDevolucion = float(solicitud.getAtributoValor('Tiempo Devolucion'))
 		motivoValor = {
-			'Compra de Casa': -150,
-			'Cambio de Coche': +150,
-			'Estudios': -400,
-			None: +500,
+			'Compra de Casa': -150*tiempoDevolucion,
+			'Cambio de Coche': +150*tiempoDevolucion,
+			'Estudios': -400*tiempoDevolucion,
+			None: +500*tiempoDevolucion,
 		}
 		situacionLaboralValor = {
-			'Parado': +550,
-			'Trabajo Temporal': -50,
-			'Trabajo Fijo': -500,
-			None: +500,
+			'Parado': +550*tiempoDevolucion,
+			'Trabajo Temporal': -50*tiempoDevolucion,
+			'Trabajo Fijo': -500*tiempoDevolucion,
+			None: +500*tiempoDevolucion,
 		}
 		valorLimite += motivoValor.get(solicitud.getAtributoValor('Motivo'))
+<<<<<<< HEAD
 		print(solicitud.getAtributoValor('Situacion Laboral'))
 		valorLimite += situacionLaboralValor.get(solicitud.getAtributoValor('Situacion Laboral')) 
 
@@ -235,6 +225,9 @@ class AbstraerValorLimite(Regla):
 		# capacidadMaximaDePago += [(capacidadMensual * 12 * 25), (capacidadMensual * 12 * 10)](edad < 50)
 		# capacidadMaximaDePago -= [(capacidadMensual * 12 * 10), 0](perfilRiesgo == 'Alto')
 		# capacidadMaximaDePago -= [(capacidadMensual * 12 * 5), 0](perfilRiesgo == 'Medio')
+=======
+		valorLimite += situacionLaboralValor.get(persona.getAtributoValor('Situacion Laboral'))
+>>>>>>> df2b7fb34036dbe5aee7495cbcfbbe7b83972598
 
 		resultado = solicitud.setAtributoSiExiste('Valor Limite', valorLimite)
 		if(resultado is None): 
